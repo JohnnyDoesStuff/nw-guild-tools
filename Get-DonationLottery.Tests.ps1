@@ -1,7 +1,6 @@
-. $PSScriptRoot\Get-DonationLottery.ps1
-
 Describe "Test Get-DonationLottery" {
     BeforeAll {
+        . $PSScriptRoot\Get-DonationLottery.ps1
         $fakePath = "fake/data.csv"
     }
     Context "Invalid data" {
