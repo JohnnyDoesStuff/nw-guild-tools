@@ -13,7 +13,8 @@ function Get-PointsPerAccount {
     $donationData | ForEach-Object {
         if ($_.item -eq $ItemName) {
             $accountName = $_.account
-            $accountData.$accountName += $_.amount
+            [int]$amount = $_.amount
+            $accountData.$accountName += $amount
         }
     }
     

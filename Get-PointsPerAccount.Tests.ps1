@@ -14,7 +14,7 @@ Describe "Get-PointsPerAccount" {
     Context "Single account" {
         It "Single entry" {
             $script:donationData = @(
-                @{ name = "foo"; account = "bar"; amount = 5; item = $itemName}
+                @{ name = "foo"; account = "bar"; amount = "5"; item = $itemName}
             )
 
             $result = Get-PointsPerAccount -DonationLogPath $fakeDonationLogPath -ItemName $itemName
@@ -26,9 +26,9 @@ Describe "Get-PointsPerAccount" {
 
         It "Multiple entries" {
             $script:donationData = @(
-                @{ name = "foo"; account = "bar"; amount = 5; item = $itemName}
-                @{ name = "foo"; account = "bar"; amount = 6; item = $itemName}
-                @{ name = "foo"; account = "bar"; amount = 8; item = $itemName}
+                @{ name = "foo"; account = "bar"; amount = "5"; item = $itemName}
+                @{ name = "foo"; account = "bar"; amount = "6"; item = $itemName}
+                @{ name = "foo"; account = "bar"; amount = "8"; item = $itemName}
             )
 
             $result = Get-PointsPerAccount -DonationLogPath $fakeDonationLogPath -ItemName $itemName
@@ -40,10 +40,10 @@ Describe "Get-PointsPerAccount" {
 
         It "Multiple item types" {
             $script:donationData = @(
-                @{ name = "foo"; account = "bar"; amount = 1; item = $itemName}
-                @{ name = "foo"; account = "bar"; amount = 2; item = "something else"}
-                @{ name = "foo"; account = "bar"; amount = 3; item = $itemName}
-                @{ name = "foo"; account = "bar"; amount = 4; item = $itemName}
+                @{ name = "foo"; account = "bar"; amount = "1"; item = $itemName}
+                @{ name = "foo"; account = "bar"; amount = "2"; item = "something else"}
+                @{ name = "foo"; account = "bar"; amount = "3"; item = $itemName}
+                @{ name = "foo"; account = "bar"; amount = "4"; item = $itemName}
             )
 
             $result = Get-PointsPerAccount -DonationLogPath $fakeDonationLogPath -ItemName $itemName
@@ -57,10 +57,10 @@ Describe "Get-PointsPerAccount" {
     Context "Multiple accounts" {
         It "Single Item" {
             $script:donationData = @(
-                @{ name = "foo"; account = "bar0"; amount = 1; item = $itemName}
-                @{ name = "foo"; account = "bar0"; amount = 2; item = $itemName}
-                @{ name = "foo"; account = "bar1"; amount = 3; item = $itemName}
-                @{ name = "foo"; account = "bar1"; amount = 4; item = $itemName}
+                @{ name = "foo"; account = "bar0"; amount = "1"; item = $itemName}
+                @{ name = "foo"; account = "bar0"; amount = "2"; item = $itemName}
+                @{ name = "foo"; account = "bar1"; amount = "3"; item = $itemName}
+                @{ name = "foo"; account = "bar1"; amount = "4"; item = $itemName}
             )
 
             $result = Get-PointsPerAccount -DonationLogPath $fakeDonationLogPath -ItemName $itemName
@@ -73,12 +73,12 @@ Describe "Get-PointsPerAccount" {
 
         It "Multiple Items" {
             $script:donationData = @(
-                @{ name = "foo"; account = "bar0"; amount = 1; item = $itemName}
-                @{ name = "foo"; account = "bar1"; amount = 5; item = "something else"}
-                @{ name = "foo"; account = "bar0"; amount = 2; item = $itemName}
-                @{ name = "foo"; account = "bar0"; amount = 5; item = "something else"}
-                @{ name = "foo"; account = "bar1"; amount = 3; item = $itemName}
-                @{ name = "foo"; account = "bar1"; amount = 4; item = $itemName}
+                @{ name = "foo"; account = "bar0"; amount = "1"; item = $itemName}
+                @{ name = "foo"; account = "bar1"; amount = "5"; item = "something else"}
+                @{ name = "foo"; account = "bar0"; amount = "2"; item = $itemName}
+                @{ name = "foo"; account = "bar0"; amount = "5"; item = "something else"}
+                @{ name = "foo"; account = "bar1"; amount = "3"; item = $itemName}
+                @{ name = "foo"; account = "bar1"; amount = "4"; item = $itemName}
             )
 
             $result = Get-PointsPerAccount -DonationLogPath $fakeDonationLogPath -ItemName $itemName
