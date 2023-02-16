@@ -25,6 +25,7 @@ function Get-PlayerMain {
             Get-AccountMain -DonationData $donationData -AccountName $_
         )
     }
+    return $mains
 }
 
 function Get-AccountMain {
