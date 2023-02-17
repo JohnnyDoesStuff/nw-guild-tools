@@ -1,9 +1,6 @@
 <#
 .SYNOPSIS
     Returns the main of an account in an interactive dialogue
-.EXAMPLE
-    Test-MyTestFunction -Verbose
-    Explanation of the function or its result. You can include multiple examples with additional .EXAMPLE lines
 #>
 
 
@@ -21,6 +18,27 @@ function Get-PlayerMain {
     $mains = @()
     
     $accounts | ForEach-Object {
+        $mains = $mains + @(
+            Get-AccountMain -DonationData $donationData -AccountName $_
+        )
+    }
+    return $mains
+}
+
+function Get-AccountMainList {
+    param (
+        [Parameter(Mandatory)]
+        [String]
+        $DonationLogPath,
+        [Parameter(Mandatory)]
+        [array]
+        $Accounts
+    )
+    
+    $donationData = Import-Csv -Path $DonationLogPath
+    $mains = @()
+    
+    $Accounts | ForEach-Object {
         $mains = $mains + @(
             Get-AccountMain -DonationData $donationData -AccountName $_
         )
