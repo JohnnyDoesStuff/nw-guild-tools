@@ -13,7 +13,7 @@ function Get-PlayerMain {
     )
 
     $donationData = Import-Csv -Path $DonationLogPath
-    $accounts = $donationData.account
+    $accounts = $donationData."Account Handle"
     $accounts = Remove-Duplicate -Array $accounts
     $mains = @()
     
@@ -56,9 +56,9 @@ function Get-AccountMain {
         $AccountName
     )
     $dataRows = $DonationData | Where-Object {
-        $_.account -eq $AccountName
+        $_."Account Handle" -eq $AccountName
     }
-    [array]$characters = $dataRows.name
+    [array]$characters = $dataRows."Character Name"
     $characters = Remove-Duplicate -Array $characters
     if ($characters.Count -eq 1) {
         return $characters[0]

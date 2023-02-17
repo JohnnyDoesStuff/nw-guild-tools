@@ -66,7 +66,7 @@ Describe "Test Get-PlayerMain and help functions" {
             $accountName = "foo0"
             $mainName = "bar"
             $donationData = @(
-                @{ name = $mainName; account = $accountName; amount = 5; item = "dummyItem"}
+                @{ "Character Name" = $mainName; "Account Handle" = $accountName; "Resource Quantity" = 5; "Resource" = "dummyItem"}
             )
 
             $result = Get-AccountMain -DonationData $donationData -AccountName $accountName
@@ -79,8 +79,8 @@ Describe "Test Get-PlayerMain and help functions" {
             $mainName = "bar"
             $altName = "es"
             $donationData = @(
-                @{ name = $mainName; account = $accountName; amount = 5; item = "dummyItem"}
-                @{ name = $altName; account = $accountName; amount = 5; item = "dummyItem"}
+                @{ "Character Name" = $mainName; "Account Handle" = $accountName; "Resource Quantity" = 5; "Resource" = "dummyItem"}
+                @{ "Character Name" = $altName; "Account Handle" = $accountName; "Resource Quantity" = 5; "Resource" = "dummyItem"}
             )
             Mock Get-AnswerFromUser -ParameterFilter {
                 $expectedQuestion = "What is the main of the account $accountName"
