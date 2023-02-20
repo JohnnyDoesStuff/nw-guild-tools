@@ -12,7 +12,10 @@ function New-DonationLottery {
         $ItemName,
         [Parameter(Mandatory)]
         [string]
-        $ItemThreshold
+        $ItemThreshold,
+        [Parameter()]
+        [string]
+        $AccountIgnoreFile
     )
 
     . $PSScriptRoot\Convert-HashtableToArray.ps1
@@ -28,7 +31,13 @@ function New-DonationLottery {
         Write-Host "$($_.Name): $($_.Points)"
     }
     Write-Host "----------------------------"
-    $winnerAccounts = Get-DonationLottery -PointsPerAccount $points -ListLength $ListLength -PointThreshold $ItemThreshold
+    $getDonationLotteryParams = @{
+        PointsPerAccount = $points
+        ListLength = $ListLength
+        PointThreshold = $ItemThreshold
+        AccountIgnoreFile = $AccountIgnoreFile
+    }
+    $winnerAccounts = Get-DonationLottery @getDonationLotteryParams
     $characterNames = Get-AccountMainList -DonationLogPath $DonationLogPath -Accounts $winnerAccounts
     $resultText = Format-DonationLottery -OrderedNames $characterNames
     return $resultText
