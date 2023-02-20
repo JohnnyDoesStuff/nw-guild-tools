@@ -155,4 +155,175 @@ Describe "Test Get-DonationLottery" {
             }
         }
     }
+
+    Context "Ignore accounts" {
+        It "Can ignore an account" {
+            $accountToIgnore = "someGuildOfficer"
+            $pointsPerAccount = @(
+                @{Name = "foo0"; Points = 10}
+                @{Name = "foo1"; Points = 10}
+                @{Name = "foo2"; Points = 10}
+                @{Name = "foo3"; Points = 10}
+                @{Name = $accountToIgnore; Points = 10}
+            )
+            $ignoreFile = "path/to/ignore-accounts.txt"
+
+            Mock Test-Path -ParameterFilter {
+                $Path -eq $ignoreFile
+            } -MockWith {
+                $true
+            } -Verifiable
+            Mock Get-Content -ParameterFilter {
+                $Path -eq $ignoreFile
+            } -MockWith {
+                "$accountToIgnore"
+            } -Verifiable
+
+            $mockResult = @(
+                $pointsPerAccount[0],
+                $pointsPerAccount[2],
+                $pointsPerAccount[1],
+                $pointsPerAccount[3]
+            )
+            Mock Get-Random -ParameterFilter {
+                if ($InputObject -contains $pointsPerAccount[4]) {
+                    return $false
+                }
+                $sizeCorrect = $InputObject.Length -eq 4
+                $foo0Present = $InputObject -contains $pointsPerAccount[0]
+                $foo1Present = $InputObject -contains $pointsPerAccount[1]
+                $foo2Present = $InputObject -contains $pointsPerAccount[2]
+                $foo3Present = $InputObject -contains $pointsPerAccount[3]
+                $sizeCorrect -and $foo0Present -and $foo1Present -and $foo2Present -and $foo3Present
+            } -MockWith {
+                $mockResult
+            } -Verifiable
+
+            $result = Get-DonationLottery -PointsPerAccount $pointsPerAccount -ListLength 4 -PointThreshold 9 -AccountIgnoreFile $ignoreFile
+
+            $result.Length | Should -Be 4
+            $result | Should -Contain $pointsPerAccount[0].Name
+            $result | Should -Contain $pointsPerAccount[1].Name
+            $result | Should -Contain $pointsPerAccount[2].Name
+            $result | Should -Contain $pointsPerAccount[3].Name
+            $result | Should -Not -Contain $pointsPerAccount[4].Name
+
+            Should -InvokeVerifiable
+        }
+
+        It "Can ignore an account with trailing whitespace" {
+            $accountToIgnore = "someGuildOfficer"
+            $pointsPerAccount = @(
+                @{Name = "foo0"; Points = 10}
+                @{Name = "foo1"; Points = 10}
+                @{Name = "foo2"; Points = 10}
+                @{Name = "foo3"; Points = 10}
+                @{Name = $accountToIgnore; Points = 10}
+            )
+            $ignoreFile = "path/to/ignore-accounts.txt"
+
+            Mock Test-Path -ParameterFilter {
+                $Path -eq $ignoreFile
+            } -MockWith {
+                $true
+            } -Verifiable
+            Mock Get-Content -ParameterFilter {
+                $Path -eq $ignoreFile
+            } -MockWith {
+                "$accountToIgnore
+                "
+            } -Verifiable
+
+            $mockResult = @(
+                $pointsPerAccount[0],
+                $pointsPerAccount[2],
+                $pointsPerAccount[1],
+                $pointsPerAccount[3]
+            )
+            Mock Get-Random -ParameterFilter {
+                if ($InputObject -contains $pointsPerAccount[4]) {
+                    return $false
+                }
+                $sizeCorrect = $InputObject.Length -eq 4
+                $foo0Present = $InputObject -contains $pointsPerAccount[0]
+                $foo1Present = $InputObject -contains $pointsPerAccount[1]
+                $foo2Present = $InputObject -contains $pointsPerAccount[2]
+                $foo3Present = $InputObject -contains $pointsPerAccount[3]
+                $sizeCorrect -and $foo0Present -and $foo1Present -and $foo2Present -and $foo3Present
+            } -MockWith {
+                $mockResult
+            } -Verifiable
+
+            $result = Get-DonationLottery -PointsPerAccount $pointsPerAccount -ListLength 4 -PointThreshold 9 -AccountIgnoreFile $ignoreFile
+
+            $result.Length | Should -Be 4
+            $result | Should -Contain $pointsPerAccount[0].Name
+            $result | Should -Contain $pointsPerAccount[1].Name
+            $result | Should -Contain $pointsPerAccount[2].Name
+            $result | Should -Contain $pointsPerAccount[3].Name
+            $result | Should -Not -Contain $pointsPerAccount[4].Name
+
+            Should -InvokeVerifiable
+        }
+
+        It "Can ignore multiple accounts" {
+            $script:accountsToIgnore = @(
+                "someGuildOfficer"
+                "anotherOfficer"
+            )
+            $pointsPerAccount = @(
+                @{Name = "foo0"; Points = 10}
+                @{Name = "foo1"; Points = 10}
+                @{Name = "foo2"; Points = 10}
+                @{Name = "foo3"; Points = 10}
+                @{Name = $script:accountsToIgnore[0]; Points = 10}
+                @{Name = $script:accountsToIgnore[1]; Points = 10}
+            )
+            $ignoreFile = "path/to/ignore-accounts.txt"
+
+            Mock Test-Path -ParameterFilter {
+                $Path -eq $ignoreFile
+            } -MockWith {
+                $true
+            } -Verifiable
+            Mock Get-Content -ParameterFilter {
+                $Path -eq $ignoreFile
+            } -MockWith {
+                "$($script:accountsToIgnore[0])
+                $($script:accountsToIgnore[1])
+                "
+            } -Verifiable
+
+            $mockResult = @(
+                $pointsPerAccount[0],
+                $pointsPerAccount[2],
+                $pointsPerAccount[1],
+                $pointsPerAccount[3]
+            )
+            Mock Get-Random -ParameterFilter {
+                if ($InputObject -contains $pointsPerAccount[4]) {
+                    return $false
+                }
+                $sizeCorrect = $InputObject.Length -eq 4
+                $foo0Present = $InputObject -contains $pointsPerAccount[0]
+                $foo1Present = $InputObject -contains $pointsPerAccount[1]
+                $foo2Present = $InputObject -contains $pointsPerAccount[2]
+                $foo3Present = $InputObject -contains $pointsPerAccount[3]
+                $sizeCorrect -and $foo0Present -and $foo1Present -and $foo2Present -and $foo3Present
+            } -MockWith {
+                $mockResult
+            } -Verifiable
+
+            $result = Get-DonationLottery -PointsPerAccount $pointsPerAccount -ListLength 4 -PointThreshold 9 -AccountIgnoreFile $ignoreFile
+
+            $result.Length | Should -Be 4
+            $result | Should -Contain $pointsPerAccount[0].Name
+            $result | Should -Contain $pointsPerAccount[1].Name
+            $result | Should -Contain $pointsPerAccount[2].Name
+            $result | Should -Contain $pointsPerAccount[3].Name
+            $result | Should -Not -Contain $pointsPerAccount[4].Name
+
+            Should -InvokeVerifiable
+        }
+    }
 }

@@ -12,6 +12,10 @@
 .PARAMETER PointThreshold
     The amount of points that have to be achieved to have a chance of winning something
 
+.PARAMETER AccountIgnoreFile
+    An optional parameter to specify a file with a list of accounts who should be excluded
+    E.g. if you don't want to give prices to your officers since they already got that stuff
+
 .EXAMPLE
     Get-DonationLottery -PointsPerAccount @(
                     @{Name = "foo0"; Points = 10}
@@ -33,7 +37,10 @@ function Get-DonationLottery {
         $ListLength,
         [Parameter(Mandatory)]
         [int]
-        $PointThreshold
+        $PointThreshold,
+        [Parameter()]
+        [string]
+        $AccountIgnoreFile
     )
 
     if ($PointsPerAccount.Length -lt $ListLength) {
@@ -45,8 +52,23 @@ function Get-DonationLottery {
         throw $errorMessage
     }
 
+    $accountsToIgnore = @()
+    if (-not ([String]::IsNullOrEmpty($AccountIgnoreFile))) {
+        if (Test-Path $AccountIgnoreFile) {
+            [string]$rawAccountData = Get-Content -Path $AccountIgnoreFile
+            [array]$lines = $rawAccountData.Split("`r`n")
+            [array]$accountsToIgnore = $lines | Where-Object {
+                -not [String]::IsNullOrWhiteSpace($_)
+            } | ForEach-Object {
+                $_.Trim()
+            }
+        } else {
+            throw "The ignore file '$AccountIgnoreFile' could not be found"
+        }
+    }
+
     $qualifiedPeople = $PointsPerAccount | Where-Object {
-        [int]$_.Points -ge $PointThreshold
+        ([int]$_.Points -ge $PointThreshold) -and (-not ($accountsToIgnore.Contains($_.Name)))
     }
 
     if ($qualifiedPeople.Length -eq 0) {
