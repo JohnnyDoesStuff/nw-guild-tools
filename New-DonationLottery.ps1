@@ -16,14 +16,17 @@
     .PARAMETER ResourceThreshold
         The amount of the resource that has to be donated to be qualified for the lottery
 
+    .PARAMETER RecipientGuild
+        The guild that should be donated to.
+
     .PARAMETER AccountIgnoreFile
         (Optional) The path to a file with people that should not be put on the list
         The file must be a simple text file.
         Each account that will be ignored has to be in a separate line
     
     .EXAMPLE
-        New-DonationLottery -DonationLogPath .\data\donation.csv -ListLength 10 -Resource "Influence" -ResourceThreshold 400
-        New-DonationLottery -DonationLogPath .\data\donation.csv -ListLength 10 -Resource "Influence" -ResourceThreshold 400 -AccountIgnoreFile .\data\ignore-accounts.txt
+        New-DonationLottery -DonationLogPath .\data\donation.csv -ListLength 10 -Resource "Influence" -ResourceThreshold 400 -RecipientGuild "My Guild"
+        New-DonationLottery -DonationLogPath .\data\donation.csv -ListLength 10 -Resource "Influence" -ResourceThreshold 400 -RecipientGuild "My Guild" -AccountIgnoreFile .\data\ignore-accounts.txt
 #>
 
 
@@ -40,6 +43,9 @@ param (
     [Parameter(Mandatory)]
     [string]
     $ResourceThreshold,
+    [Parameter(Mandatory)]
+    [string]
+    $RecipientGuild,
     [Parameter()]
     [string]
     $AccountIgnoreFile
@@ -51,7 +57,7 @@ param (
 . $PSScriptRoot\Get-PlayerMains.ps1
 . $PSScriptRoot\Get-PointsPerAccount.ps1
 
-$rawPoints = Get-PointsPerAccount -DonationLogPath $DonationLogPath -Resource $Resource
+$rawPoints = Get-PointsPerAccount -DonationLogPath $DonationLogPath -Resource $Resource -RecipientGuild $RecipientGuild
 $points = Convert-HashtableToArray -InputObject $rawPoints
 Write-Host "---- Points per account ----"
 $points | ForEach-Object {
