@@ -192,4 +192,86 @@ Describe "Get-PointsPerAccount" {
             Should -InvokeVerifiable
         }
     }
+
+    Context "Specifiy Donor's Guild" {
+        BeforeAll {
+            $donorsGuild = "donor"
+        }
+        It "User from the right guild" {
+            $script:donationData = @(
+                @{ "Character Name" = "foo"; "Account Handle" = "bar"; "Resource Quantity" = "5"; Resource = $resource; "Recipient Guild" = $recipientGuild; "Donor's Guild" = $donorsGuild}
+            )
+
+            $getpointsParams = @{
+               DonationLogPath = $fakeDonationLogPath
+               Resource = $resource
+               RecipientGuild = $recipientGuild
+               DonorsGuild = $donorsGuild
+            }
+            $result = Get-PointsPerAccount @getpointsParams
+
+            $result.Keys.Count | Should -Be 1
+            $result.bar | Should -Be 5
+            Should -InvokeVerifiable
+        }
+
+        It "User from different guild" {
+            $script:donationData = @(
+                @{ "Character Name" = "foo"; "Account Handle" = "bar"; "Resource Quantity" = "5"; Resource = $resource; "Recipient Guild" = $recipientGuild; "Donor's Guild" = "different guild"}
+            )
+
+            $getpointsParams = @{
+                DonationLogPath = $fakeDonationLogPath
+                Resource = $resource
+                RecipientGuild = $recipientGuild
+                DonorsGuild = $donorsGuild
+            }
+            $result = Get-PointsPerAccount @getpointsParams
+
+            $result.Keys.Count | Should -Be 0
+            $result.bar | Should -Be $null
+            Should -InvokeVerifiable
+        }
+
+        It "Multiple users from right guild" {
+            $script:donationData = @(
+                @{ "Character Name" = "foo"; "Account Handle" = "bar0"; "Resource Quantity" = "5"; Resource = $resource; "Recipient Guild" = $recipientGuild; "Donor's Guild" = $donorsGuild}
+                @{ "Character Name" = "foo"; "Account Handle" = "bar1"; "Resource Quantity" = "3"; Resource = $resource; "Recipient Guild" = $recipientGuild; "Donor's Guild" = $donorsGuild}
+            )
+
+            $getpointsParams = @{
+                DonationLogPath = $fakeDonationLogPath
+                Resource = $resource
+                RecipientGuild = $recipientGuild
+                DonorsGuild = $donorsGuild
+            }
+            $result = Get-PointsPerAccount @getpointsParams
+
+            $result.Keys.Count | Should -Be 2
+            $result.bar0 | Should -Be 5
+            $result.bar1 | Should -Be 3
+            Should -InvokeVerifiable
+        }
+        
+        It "Multiple users from different guilds" {
+            $script:donationData = @(
+                @{ "Character Name" = "foo"; "Account Handle" = "bar0"; "Resource Quantity" = "5"; Resource = $resource; "Recipient Guild" = $recipientGuild; "Donor's Guild" = $donorsGuild}
+                @{ "Character Name" = "foo"; "Account Handle" = "bar1"; "Resource Quantity" = "3"; Resource = $resource; "Recipient Guild" = $recipientGuild; "Donor's Guild" = "different guild"}
+                @{ "Character Name" = "foo"; "Account Handle" = "bar1"; "Resource Quantity" = "3"; Resource = $resource; "Recipient Guild" = $recipientGuild; "Donor's Guild" = $donorsGuild}
+            )
+
+            $getpointsParams = @{
+                DonationLogPath = $fakeDonationLogPath
+                Resource = $resource
+                RecipientGuild = $recipientGuild
+                DonorsGuild = $donorsGuild
+            }
+            $result = Get-PointsPerAccount @getpointsParams
+
+            $result.Keys.Count | Should -Be 2
+            $result.bar0 | Should -Be 5
+            $result.bar1 | Should -Be 3
+            Should -InvokeVerifiable
+        }
+    }
 }

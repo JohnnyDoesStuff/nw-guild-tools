@@ -19,6 +19,10 @@
     .PARAMETER RecipientGuild
         The guild that should be donated to.
 
+    .PARAMETER DonorsGuild
+        The guild that the donators should come from.
+        Currently this ignores if the donator has accounts in different guilds
+
     .PARAMETER AccountIgnoreFile
         (Optional) The path to a file with people that should not be put on the list
         The file must be a simple text file.
@@ -48,6 +52,9 @@ param (
     $RecipientGuild,
     [Parameter()]
     [string]
+    $DonorsGuild,
+    [Parameter()]
+    [string]
     $AccountIgnoreFile
 )
 
@@ -57,7 +64,13 @@ param (
 . $PSScriptRoot\Get-PlayerMains.ps1
 . $PSScriptRoot\Get-PointsPerAccount.ps1
 
-$rawPoints = Get-PointsPerAccount -DonationLogPath $DonationLogPath -Resource $Resource -RecipientGuild $RecipientGuild
+$getpointsParams = @{
+   DonationLogPath = $DonationLogPath
+   Resource = $Resource
+   RecipientGuild = $RecipientGuild
+   DonorsGuild = $DonorsGuild
+}
+$rawPoints = Get-PointsPerAccount @getpointsParams
 $points = Convert-HashtableToArray -InputObject $rawPoints
 Write-Host "---- Points per account ----"
 $points | ForEach-Object {

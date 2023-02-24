@@ -8,7 +8,10 @@ function Get-PointsPerAccount {
         $Resource,
         [Parameter(Mandatory)]
         [string]
-        $RecipientGuild
+        $RecipientGuild,
+        [Parameter()]
+        [string]
+        $DonorsGuild
     )
     $donationData = Import-Csv -Path $DonationLogPath
     $accountData = @{}
@@ -17,6 +20,7 @@ function Get-PointsPerAccount {
         $conditions = @(
             $_.Resource -eq $Resource
             $_."Recipient Guild" -eq $RecipientGuild
+            ([String]::IsNullOrEmpty($DonorsGuild)) -or ($_."Donor's Guild" -eq $DonorsGuild)
         )
         if ($conditions -notcontains $false) {
             $accountName = $_."Account Handle"
