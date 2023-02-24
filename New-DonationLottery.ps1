@@ -10,11 +10,11 @@
     .PARAMETER ListLength
         The amount of people you want to have on the lottery
 
-    .PARAMETER ItemName
-        The name of the currency you want to base the lottery on
+    .PARAMETER Resource
+        The name of the resource (e.g. Influence) you want to base the lottery on
 
-    .PARAMETER ItemThreshold
-        The amount of currency that has to be donated to be qualified for the lottery
+    .PARAMETER ResourceThreshold
+        The amount of the resource that has to be donated to be qualified for the lottery
 
     .PARAMETER AccountIgnoreFile
         (Optional) The path to a file with people that should not be put on the list
@@ -22,8 +22,8 @@
         Each account that will be ignored has to be in a separate line
     
     .EXAMPLE
-        New-DonationLottery -DonationLogPath .\data\donation.csv -ListLength 10 -ItemName "Influence" -ItemThreshold 400
-        New-DonationLottery -DonationLogPath .\data\donation.csv -ListLength 10 -ItemName "Influence" -ItemThreshold 400 -AccountIgnoreFile .\data\ignore-accounts.txt
+        New-DonationLottery -DonationLogPath .\data\donation.csv -ListLength 10 -Resource "Influence" -ResourceThreshold 400
+        New-DonationLottery -DonationLogPath .\data\donation.csv -ListLength 10 -Resource "Influence" -ResourceThreshold 400 -AccountIgnoreFile .\data\ignore-accounts.txt
 #>
 
 
@@ -36,10 +36,10 @@ param (
     $ListLength,
     [Parameter(Mandatory)]
     [string]
-    $ItemName,
+    $Resource,
     [Parameter(Mandatory)]
     [string]
-    $ItemThreshold,
+    $ResourceThreshold,
     [Parameter()]
     [string]
     $AccountIgnoreFile
@@ -51,7 +51,7 @@ param (
 . $PSScriptRoot\Get-PlayerMains.ps1
 . $PSScriptRoot\Get-PointsPerAccount.ps1
 
-$rawPoints = Get-PointsPerAccount -DonationLogPath $DonationLogPath -ItemName $ItemName
+$rawPoints = Get-PointsPerAccount -DonationLogPath $DonationLogPath -Resource $Resource
 $points = Convert-HashtableToArray -InputObject $rawPoints
 Write-Host "---- Points per account ----"
 $points | ForEach-Object {
@@ -61,7 +61,7 @@ Write-Host "----------------------------"
 $getDonationLotteryParams = @{
     PointsPerAccount = $points
     ListLength = $ListLength
-    PointThreshold = $ItemThreshold
+    PointThreshold = $ResourceThreshold
     AccountIgnoreFile = $AccountIgnoreFile
 }
 $winnerAccounts = Get-DonationLottery @getDonationLotteryParams

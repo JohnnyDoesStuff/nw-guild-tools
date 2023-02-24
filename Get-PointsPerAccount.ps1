@@ -5,13 +5,13 @@ function Get-PointsPerAccount {
         $DonationLogPath,
         [Parameter(Mandatory)]
         [string]
-        $ItemName
+        $Resource
     )
     $donationData = Import-Csv -Path $DonationLogPath
     $accountData = @{}
 
     $donationData | ForEach-Object {
-        if ($_.Resource -eq $ItemName) {
+        if ($_.Resource -eq $Resource) {
             $accountName = $_."Account Handle"
             [int]$amount = $_."Resource Quantity"
             $accountData.$accountName += $amount
