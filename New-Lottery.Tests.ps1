@@ -1,6 +1,6 @@
-Describe "Test Get-DonationLottery" {
+Describe "Test New-Lottery" {
     BeforeAll {
-        . $PSScriptRoot\Get-DonationLottery.ps1
+        . $PSScriptRoot\New-Lottery.ps1
         $fakePath = "fake/data.csv"
     }
     Context "Invalid data" {
@@ -11,7 +11,7 @@ Describe "Test Get-DonationLottery" {
                 @{Name = "foo2"; Points = 10}
             )
 
-            { Get-DonationLottery -PointsPerAccount $pointsPerAccount -ListLength 5 -PointThreshold 9} | Should -Throw
+            { New-Lottery -PointsPerAccount $pointsPerAccount -ListLength 5 -PointThreshold 9} | Should -Throw
         }
 
         It "No participants" {
@@ -24,13 +24,13 @@ Describe "Test Get-DonationLottery" {
                 @{Name = "foo5"; Points = 0}
             )
 
-            { Get-DonationLottery -PointsPerAccount $pointsPerAccount -ListLength 5 -PointThreshold 9} | Should -Throw
+            { New-Lottery -PointsPerAccount $pointsPerAccount -ListLength 5 -PointThreshold 9} | Should -Throw
         }
 
         It "No people" {
             $pointsPerAccount = @()
 
-            { Get-DonationLottery -PointsPerAccount $pointsPerAccount -ListLength 5 -PointThreshold 9} | Should -Throw
+            { New-Lottery -PointsPerAccount $pointsPerAccount -ListLength 5 -PointThreshold 9} | Should -Throw
         }
 
         It "Not enough qualified people" {
@@ -43,7 +43,7 @@ Describe "Test Get-DonationLottery" {
                 @{Name = "foo5"; Points = 0}
             )
 
-            { Get-DonationLottery -PointsPerAccount $pointsPerAccount -ListLength 5 -PointThreshold 9} | Should -Throw
+            { New-Lottery -PointsPerAccount $pointsPerAccount -ListLength 5 -PointThreshold 9} | Should -Throw
         }
     }
 
@@ -57,7 +57,7 @@ Describe "Test Get-DonationLottery" {
                 @{Name = "foo4"; Points = 10}
             )
 
-            $result = Get-DonationLottery -PointsPerAccount $pointsPerAccount -ListLength 5 -PointThreshold 9
+            $result = New-Lottery -PointsPerAccount $pointsPerAccount -ListLength 5 -PointThreshold 9
 
             $result.Length | Should -Be 5
             $result | Should -Contain $pointsPerAccount[0].Name
@@ -77,7 +77,7 @@ Describe "Test Get-DonationLottery" {
                 @{Name = "foo4"; Points = $threshold}
             )
 
-            $result = Get-DonationLottery -PointsPerAccount $pointsPerAccount -ListLength 5 -PointThreshold $threshold
+            $result = New-Lottery -PointsPerAccount $pointsPerAccount -ListLength 5 -PointThreshold $threshold
 
             $result.Length | Should -Be 5
             $result | Should -Contain $pointsPerAccount[0].Name
@@ -98,7 +98,7 @@ Describe "Test Get-DonationLottery" {
                 @{Name = "foo6"; Points = 10}
             )
 
-            $result = Get-DonationLottery -PointsPerAccount $pointsPerAccount -ListLength 5 -PointThreshold 9
+            $result = New-Lottery -PointsPerAccount $pointsPerAccount -ListLength 5 -PointThreshold 9
 
             $result.Length | Should -Be 5
             $result | ForEach-Object {
@@ -118,7 +118,7 @@ Describe "Test Get-DonationLottery" {
                 @{Name = "foo7"; Points = 0}
             )
 
-            $result = Get-DonationLottery -PointsPerAccount $pointsPerAccount -ListLength 5 -PointThreshold 9
+            $result = New-Lottery -PointsPerAccount $pointsPerAccount -ListLength 5 -PointThreshold 9
 
             $result.Length | Should -Be 5
             $result | Should -Contain $pointsPerAccount[0].Name
@@ -143,7 +143,7 @@ Describe "Test Get-DonationLottery" {
                 @{Name = "foo10"; Points = 10}
             )
 
-            $result = Get-DonationLottery -PointsPerAccount $pointsPerAccount -ListLength 5 -PointThreshold 9
+            $result = New-Lottery -PointsPerAccount $pointsPerAccount -ListLength 5 -PointThreshold 9
 
             $result.Length | Should -Be 5
             $result | Should -Not -Contain $pointsPerAccount[1].Name
@@ -201,7 +201,7 @@ Describe "Test Get-DonationLottery" {
                 $mockResult
             } -Verifiable
 
-            $result = Get-DonationLottery -PointsPerAccount $pointsPerAccount -ListLength 4 -PointThreshold 9 -AccountIgnoreFile $ignoreFile
+            $result = New-Lottery -PointsPerAccount $pointsPerAccount -ListLength 4 -PointThreshold 9 -AccountIgnoreFile $ignoreFile
 
             $result.Length | Should -Be 4
             $result | Should -Contain $pointsPerAccount[0].Name
@@ -265,7 +265,7 @@ Describe "Test Get-DonationLottery" {
                 $mockResult
             } -Verifiable
 
-            $result = Get-DonationLottery -PointsPerAccount $pointsPerAccount -ListLength 4 -PointThreshold 9 -AccountIgnoreFile $ignoreFile
+            $result = New-Lottery -PointsPerAccount $pointsPerAccount -ListLength 4 -PointThreshold 9 -AccountIgnoreFile $ignoreFile
 
             $result.Length | Should -Be 4
             $result | Should -Contain $pointsPerAccount[0].Name

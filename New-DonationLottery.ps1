@@ -47,7 +47,7 @@ param (
 
 . $PSScriptRoot\Convert-HashtableToArray.ps1
 . $PSScriptRoot\Format-DonationLottery.ps1
-. $PSScriptRoot\Get-DonationLottery.ps1
+. $PSScriptRoot\New-Lottery.ps1
 . $PSScriptRoot\Get-PlayerMains.ps1
 . $PSScriptRoot\Get-PointsPerAccount.ps1
 
@@ -64,7 +64,7 @@ $getDonationLotteryParams = @{
     PointThreshold = $ResourceThreshold
     AccountIgnoreFile = $AccountIgnoreFile
 }
-$winnerAccounts = Get-DonationLottery @getDonationLotteryParams
+$winnerAccounts = New-Lottery @getDonationLotteryParams
 $characterNames = Get-AccountMainList -DonationLogPath $DonationLogPath -Accounts $winnerAccounts
 $resultText = Format-DonationLottery -OrderedNames $characterNames
 return $resultText

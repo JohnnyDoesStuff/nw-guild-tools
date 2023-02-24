@@ -17,7 +17,7 @@
     E.g. if you don't want to give prices to your officers since they already got that stuff
 
 .EXAMPLE
-    Get-DonationLottery -PointsPerAccount @(
+    New-Lottery -PointsPerAccount @(
                     @{Name = "foo0"; Points = 10}
                     @{Name = "foo1"; Points = 10}
                     @{Name = "foo2"; Points = 10}
@@ -26,7 +26,7 @@
 
 
 
-function Get-DonationLottery {
+function New-Lottery {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory)]
