@@ -1,3 +1,5 @@
+. $PSScriptRoot\Test-GuildMembership.ps1
+
 function Get-PointsPerAccount {
     param (
         [Parameter(Mandatory)]
@@ -17,13 +19,19 @@ function Get-PointsPerAccount {
     $accountData = @{}
 
     $donationData | ForEach-Object {
+        $accountName = $_."Account Handle"
+        $testMembershipParams = @{
+            AccountName = $accountName
+            GuildNameToTest = $DonorsGuild
+            DonationData = $donationData
+            GuildOfCharacter = $_."Donor's Guild"
+        }
         $conditions = @(
             $_.Resource -eq $Resource
             $_."Recipient Guild" -eq $RecipientGuild
-            ([String]::IsNullOrEmpty($DonorsGuild)) -or ($_."Donor's Guild" -eq $DonorsGuild)
+            ([String]::IsNullOrEmpty($DonorsGuild)) -or (Test-GuildMembership @testMembershipParams)
         )
         if ($conditions -notcontains $false) {
-            $accountName = $_."Account Handle"
             [int]$amount = $_."Resource Quantity"
             $accountData.$accountName += $amount
         }

@@ -198,9 +198,21 @@ Describe "Get-PointsPerAccount" {
             $donorsGuild = "donor"
         }
         It "User from the right guild" {
+            $accountHandle = "bar"
             $script:donationData = @(
-                @{ "Character Name" = "foo"; "Account Handle" = "bar"; "Resource Quantity" = "5"; Resource = $resource; "Recipient Guild" = $recipientGuild; "Donor's Guild" = $donorsGuild}
+                @{ "Character Name" = "foo"; "Account Handle" = $accountHandle; "Resource Quantity" = "5"; Resource = $resource; "Recipient Guild" = $recipientGuild; "Donor's Guild" = $donorsGuild}
             )
+
+            Mock Test-GuildMembership -ParameterFilter {
+                @(
+                    $AccountName -eq $accountHandle
+                    $GuildNameToTest -eq $donorsGuild
+                    $DonationData -eq $script:donationData
+                    $GuildOfCharacter -eq $donorsGuild
+                ) -notcontains $false
+            } -MockWith {
+                $true
+            } -Verifiable
 
             $getpointsParams = @{
                DonationLogPath = $fakeDonationLogPath
@@ -216,9 +228,22 @@ Describe "Get-PointsPerAccount" {
         }
 
         It "User from different guild" {
+            $accountHandle = "bar"
+            $differentGuild = "different guild"
             $script:donationData = @(
-                @{ "Character Name" = "foo"; "Account Handle" = "bar"; "Resource Quantity" = "5"; Resource = $resource; "Recipient Guild" = $recipientGuild; "Donor's Guild" = "different guild"}
+                @{ "Character Name" = "foo"; "Account Handle" = $accountHandle; "Resource Quantity" = "5"; Resource = $resource; "Recipient Guild" = $recipientGuild; "Donor's Guild" = $differentGuild}
             )
+
+            Mock Test-GuildMembership -ParameterFilter {
+                @(
+                    $AccountName -eq $accountHandle
+                    $GuildNameToTest -eq $donorsGuild
+                    $DonationData -eq $script:donationData
+                    $GuildOfCharacter -eq $differentGuild
+                ) -notcontains $false
+            } -MockWith {
+                $false
+            } -Verifiable
 
             $getpointsParams = @{
                 DonationLogPath = $fakeDonationLogPath
@@ -234,10 +259,22 @@ Describe "Get-PointsPerAccount" {
         }
 
         It "Multiple users from right guild" {
+            $accounts = @("bar0", "bar1")
             $script:donationData = @(
-                @{ "Character Name" = "foo"; "Account Handle" = "bar0"; "Resource Quantity" = "5"; Resource = $resource; "Recipient Guild" = $recipientGuild; "Donor's Guild" = $donorsGuild}
-                @{ "Character Name" = "foo"; "Account Handle" = "bar1"; "Resource Quantity" = "3"; Resource = $resource; "Recipient Guild" = $recipientGuild; "Donor's Guild" = $donorsGuild}
+                @{ "Character Name" = "foo"; "Account Handle" = $accounts[0]; "Resource Quantity" = "5"; Resource = $resource; "Recipient Guild" = $recipientGuild; "Donor's Guild" = $donorsGuild}
+                @{ "Character Name" = "foo"; "Account Handle" = $accounts[1]; "Resource Quantity" = "3"; Resource = $resource; "Recipient Guild" = $recipientGuild; "Donor's Guild" = $donorsGuild}
             )
+            
+            Mock Test-GuildMembership -ParameterFilter {
+                @(
+                    $accounts -contains $AccountName
+                    $GuildNameToTest -eq $donorsGuild
+                    $DonationData -eq $script:donationData
+                    $GuildOfCharacter -eq $donorsGuild
+                ) -notcontains $false
+            } -MockWith {
+                $true
+            } -Verifiable
 
             $getpointsParams = @{
                 DonationLogPath = $fakeDonationLogPath
@@ -254,11 +291,23 @@ Describe "Get-PointsPerAccount" {
         }
         
         It "Multiple users from different guilds" {
+            $accounts = @("bar0", "bar1")
             $script:donationData = @(
-                @{ "Character Name" = "foo"; "Account Handle" = "bar0"; "Resource Quantity" = "5"; Resource = $resource; "Recipient Guild" = $recipientGuild; "Donor's Guild" = $donorsGuild}
-                @{ "Character Name" = "foo"; "Account Handle" = "bar1"; "Resource Quantity" = "3"; Resource = $resource; "Recipient Guild" = $recipientGuild; "Donor's Guild" = "different guild"}
-                @{ "Character Name" = "foo"; "Account Handle" = "bar1"; "Resource Quantity" = "3"; Resource = $resource; "Recipient Guild" = $recipientGuild; "Donor's Guild" = $donorsGuild}
+                @{ "Character Name" = "foo0"; "Account Handle" = $accounts[0]; "Resource Quantity" = "5"; Resource = $resource; "Recipient Guild" = $recipientGuild; "Donor's Guild" = $donorsGuild}
+                @{ "Character Name" = "foo1"; "Account Handle" = $accounts[1]; "Resource Quantity" = "3"; Resource = $resource; "Recipient Guild" = $recipientGuild; "Donor's Guild" = "different guild"}
+                @{ "Character Name" = "foo2"; "Account Handle" = $accounts[1]; "Resource Quantity" = "3"; Resource = $resource; "Recipient Guild" = $recipientGuild; "Donor's Guild" = $donorsGuild}
             )
+
+            Mock Test-GuildMembership -ParameterFilter {
+                @(
+                    $accounts -contains $AccountName
+                    $GuildNameToTest -eq $donorsGuild
+                    $DonationData -eq $script:donationData
+                    $GuildOfCharacter -eq $donorsGuild
+                ) -notcontains $false
+            } -MockWith {
+                $true
+            } -Verifiable
 
             $getpointsParams = @{
                 DonationLogPath = $fakeDonationLogPath
@@ -270,7 +319,7 @@ Describe "Get-PointsPerAccount" {
 
             $result.Keys.Count | Should -Be 2
             $result.bar0 | Should -Be 5
-            $result.bar1 | Should -Be 3
+            $result.bar1 | Should -Be 6
             Should -InvokeVerifiable
         }
     }
