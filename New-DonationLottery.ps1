@@ -21,7 +21,6 @@
 
     .PARAMETER DonorsGuild
         The guild that the donators should come from.
-        Currently this ignores if the donator has accounts in different guilds
 
     .PARAMETER AccountIgnoreFile
         (Optional) The path to a file with people that should not be put on the list
