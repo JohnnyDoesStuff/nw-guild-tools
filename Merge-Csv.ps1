@@ -29,10 +29,30 @@ function Repair-CsvHeader {
         $FilePath
     )
     $content = Get-Content $FilePath
-    $firstLine = $content[0]
-    if ($firstLine -notmatch "Day,Time") {
-        $content[0] = $firstLine.Replace("Time", "Day,Time")
+    $firstLineWithData = $content[1]
+
+    $csvDelimiter = ','
+    $header = $content[0]
+    $cellsInFirstLine = $firstLineWithData.Split($csvDelimiter)
+    $amountOfCells = $cellsInFirstLine.Length
+
+    $headerItems = $header.Split($csvDelimiter)
+    $amountOfColumns = $headerItems.Length
+
+    if ($amountOfCells -eq $amountOfColumns) {
+        Write-Verbose "No repair seems to be necessary for $FilePath"
+    } elseif ($amountOfCells -eq ($amountOfColumns + 1)) {
+        Write-Verbose "Repairing $($FilePath)..."
+        Write-Verbose "Assuming that the time is comma separated into day and time of day"
+        $content[0] = $header.Replace("Time", "Time$($csvDelimiter)TimeOfDay")
         Set-Content -Path $FilePath -Value $content
+    } else {
+        $errorMessage = @(
+            "Unexpected format when importing $FilePath"
+            "Please check that it uses $csvDelimiter as delimiter"
+            "and that it is well-formed"
+        ) -join " "
+        Write-Error $errorMessage
     }
 }
 
@@ -40,13 +60,15 @@ $results = @()
 $existingDates = @()
 
 foreach ($file in $RawData) {
-    $existingDates = $results | ForEach-Object { $_.Day + $_.Time }
+    Write-Verbose "Processing $file"
     Repair-CsvHeader $file
+
     $dataSet = Import-Csv -Path $file
+    $existingDates = $results | ForEach-Object { $_.Time + $_.TimeOfDay }
 
     $newData = $dataSet | Where-Object {
-        $dateNotExists = $existingDates -notcontains ($_.Day + $_.Time)
-        $dateIsInAllowedRange = $_.Day -match $TimePattern
+        $dateNotExists = $existingDates -notcontains ($_.Time + $_.TimeOfDay)
+        $dateIsInAllowedRange = $_.Time -match $TimePattern
         $dateNotExists -and $dateIsInAllowedRange
     }
     $results = $results + $newData
