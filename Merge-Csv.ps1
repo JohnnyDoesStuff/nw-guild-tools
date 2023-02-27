@@ -15,12 +15,12 @@
 
 
 param(
-	[Parameter(Mandatory)]
-	[array]$RawData,
-	[Parameter(Mandatory)]
-	[String]$TimePattern,
-	[Parameter(Mandatory)]
-	[String]$TargetFile
+    [Parameter(Mandatory)]
+    [array]$RawData,
+    [Parameter(Mandatory)]
+    [String]$TimePattern,
+    [Parameter(Mandatory)]
+    [String]$TargetFile
 )
 
 function Repair-CsvHeader {
@@ -39,17 +39,17 @@ function Repair-CsvHeader {
 $results = @()
 $existingDates = @()
 
-foreach($file in $RawData) {
- $existingDates = $results | ForEach-Object {$_.Day + $_.Time}
- Repair-CsvHeader $file
- $dataSet = Import-Csv -Path $file
+foreach ($file in $RawData) {
+    $existingDates = $results | ForEach-Object { $_.Day + $_.Time }
+    Repair-CsvHeader $file
+    $dataSet = Import-Csv -Path $file
 
- $newData = $dataSet | Where-Object {
-	 $dateNotExists = $existingDates -notcontains ($_.Day + $_.Time)
-	 $dateIsInAllowedRange = $_.Day -match $TimePattern
-	 $dateNotExists -and $dateIsInAllowedRange
- }
- $results = $results + $newData
+    $newData = $dataSet | Where-Object {
+        $dateNotExists = $existingDates -notcontains ($_.Day + $_.Time)
+        $dateIsInAllowedRange = $_.Day -match $TimePattern
+        $dateNotExists -and $dateIsInAllowedRange
+    }
+    $results = $results + $newData
 }
 
 $results | Select-Object * | Export-Csv -Path $TargetFile -NoTypeInformation
