@@ -21,6 +21,20 @@ The results of this script are the following:
 - Points per account: This is a simple console output that lists which account donated how much of the resource
 - Lottery: A ranked list of a specified length (This is also the actual return value of the function)
 
+### [Show-PointsPerAccount](./Show-PointsPerAccount.ps1)
+
+A PowerShell script that shows who donated how much of a certain ressource to a guild.
+
+Example output:
+```
+MainCharacter      AccountHandle      DonatedAmount
+-------------      -------------      -------------
+foo                bar                           20
+es                 stuf#12345                   100
+hello              there#23456                   40
+general            kenobi#9876                  200
+```
+
 ## Tests
 ### PowerShell
 PowerShell scripts can be tested with [Pester](https://pester.dev/) (Major version: 5). Open a PowerShell and execute:
