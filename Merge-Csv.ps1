@@ -2,14 +2,23 @@
     .SYNOPSIS
     Merges *.csv files and removes entries having the same value within the column "Time"
 
+    .NOTES
+    All *.csv files should have been exported with the same language.
+    Otherwise the TimePattern (and maybe also further processing) does not make sense
+
     .PARAMETER RawData
-        An array with paths to all *.csv files to consider
+    An array with paths to all *.csv files to consider
 
     .PARAMETER TimePattern
     A pattern to specify which entries should be contained within the merged file
 
     .EXAMPLE
-    PS> .\Merge-Csv.ps1 -RawData $myarray -TimePattern ".*2\.2022"
+    PS> .\Merge-Csv.ps1 -RawData $myarray -TimePattern ".*2\.2022.*"
+    This assumes that the time is something like "24.2.2022, 10:10:10"
+
+    .EXAMPLE
+    PS> .\Merge-Csv.ps1 -RawData $myarray -TimePattern "2/.*/2022.*"
+    This assumes that the time is something like "2/24/2022 10:10:10 AM"
 
 #>
 
