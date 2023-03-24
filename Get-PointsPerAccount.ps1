@@ -1,4 +1,4 @@
-. $PSScriptRoot\Test-GuildMembership.ps1
+. "$PSScriptRoot\Test-GuildMembership.ps1"
 
 function Get-PointsPerAccount {
     param (

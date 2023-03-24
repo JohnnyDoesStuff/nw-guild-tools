@@ -1,6 +1,6 @@
 Describe "Get-PointsPerAccount" {
     BeforeAll {
-        . $PSScriptRoot\Get-PointsPerAccount.ps1
+        . "$PSScriptRoot\Get-PointsPerAccount.ps1"
         $fakeDonationLogPath = "fakePath"
         $recipientGuild = "recipient"
         $resource = "dummyItem"

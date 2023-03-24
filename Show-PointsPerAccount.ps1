@@ -39,9 +39,9 @@ param (
     $DonorsGuild
 )
 
-. $PSScriptRoot\Convert-HashtableToArray.ps1
-. $PSScriptRoot\Get-PlayerMains.ps1
-. $PSScriptRoot\Get-PointsPerAccount.ps1
+. "$PSScriptRoot\Convert-HashtableToArray.ps1"
+. "$PSScriptRoot\Get-PlayerMains.ps1"
+. "$PSScriptRoot\Get-PointsPerAccount.ps1"
 
 $getpointsParams = @{
     DonationLogPath = $DonationLogPath

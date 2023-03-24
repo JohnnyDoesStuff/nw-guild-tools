@@ -2,7 +2,7 @@
 Describe "Test Get-PlayerMain and help functions" {
     BeforeAll {
         $scriptPath = Join-Path $PSScriptRoot -ChildPath "Get-PlayerMains.ps1"
-        . $scriptPath
+        . "$scriptPath"
     }
     Context "Remove-Duplicate" {
         It "Single entry" {
