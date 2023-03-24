@@ -32,11 +32,13 @@ function Convert-AltAccount {
         $TargetFile
     )
 
+    Write-Verbose "Mapping accounts:"
     [array]$lines = Get-Content -Path $AltAccountMappingFile
     [array]$accountsToMap = $lines | Where-Object {
         -not [String]::IsNullOrWhiteSpace($_)
     } | ForEach-Object {
         $altAccount, $mainAccount = $_.Trim().Split(':')
+        Write-Verbose "    $altAccount -> $mainAccount"
         @{
             Alt = $altAccount
             Main = $mainAccount
@@ -47,5 +49,5 @@ function Convert-AltAccount {
     $accountsToMap | ForEach-Object {
         $fileContent = $fileContent.Replace($_.Alt, $_.Main)
     }
-    New-Item -Path $TargetFile -ItemType File -Value $fileContent
+    New-Item -Path $TargetFile -ItemType File -Value $fileContent -Force | Out-Null
 }

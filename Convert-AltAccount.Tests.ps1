@@ -19,6 +19,7 @@ Describe "Convert-AltAccount" {
                 $Path -eq $targetFakePath
                 $ItemType -eq "File"
                 $Value -eq $script:expectedResult
+                $Force -eq $true
             ) -notcontains $false
         } -MockWith {} -Verifiable
     }
