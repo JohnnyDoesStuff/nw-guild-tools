@@ -26,10 +26,15 @@
         (Optional) The path to a file with people that should not be put on the list
         The file must be a simple text file.
         Each account that will be ignored has to be in a separate line
+
+    .PARAMETER AccountMappingFile
+        (Optional) The path to a file with other accounts of people
+        The file must be a simple text files
+        Each line is a mapping in this schema "altAccount:mainAccount"
     
     .EXAMPLE
         New-DonationLottery -DonationLogPath .\data\donation.csv -ListLength 10 -Resource "Influence" -ResourceThreshold 400 -RecipientGuild "My Guild"
-        New-DonationLottery -DonationLogPath .\data\donation.csv -ListLength 10 -Resource "Influence" -ResourceThreshold 400 -RecipientGuild "My Guild" -AccountIgnoreFile .\data\ignore-accounts.txt
+        New-DonationLottery -DonationLogPath .\data\donation.csv -ListLength 10 -Resource "Influence" -ResourceThreshold 400 -RecipientGuild "My Guild" -AccountIgnoreFile .\data\ignore-accounts.txt -AccountMappingFile .\data\mapping.txt
 #>
 
 
@@ -54,7 +59,10 @@ param (
     $DonorsGuild,
     [Parameter()]
     [string]
-    $AccountIgnoreFile
+    $AccountIgnoreFile,
+    [Parameter()]
+    [string]
+    $AccountMappingFile
 )
 
 . $PSScriptRoot\Convert-HashtableToArray.ps1
@@ -62,9 +70,21 @@ param (
 . $PSScriptRoot\New-Lottery.ps1
 . $PSScriptRoot\Get-PlayerMains.ps1
 . $PSScriptRoot\Get-PointsPerAccount.ps1
+. $PSScriptRoot\Convert-AltAccount.ps1
+
+$donationDataPath = $DonationLogPath
+if (-not [String]::IsNullOrEmpty($AccountMappingFile)) {
+    $donationDataPath = Join-Path -Path $PSScriptRoot -ChildPath "data\donations.temp.csv"
+    $convertArgs = @{
+        DonationLogPath = $DonationLogPath
+        AltAccountMappingFile = $AccountMappingFile
+        TargetFile = $donationDataPath
+    }
+    Convert-AltAccount @convertArgs
+}
 
 $getpointsParams = @{
-   DonationLogPath = $DonationLogPath
+   DonationLogPath = $donationDataPath
    Resource = $Resource
    RecipientGuild = $RecipientGuild
    DonorsGuild = $DonorsGuild
@@ -83,6 +103,6 @@ $getDonationLotteryParams = @{
     AccountIgnoreFile = $AccountIgnoreFile
 }
 $winnerAccounts = New-Lottery @getDonationLotteryParams
-$characterNames = Get-AccountMainList -DonationLogPath $DonationLogPath -Accounts $winnerAccounts
+$characterNames = Get-AccountMainList -DonationLogPath $donationDataPath -Accounts $winnerAccounts
 $resultText = Format-DonationLottery -OrderedNames $characterNames
 return $resultText
