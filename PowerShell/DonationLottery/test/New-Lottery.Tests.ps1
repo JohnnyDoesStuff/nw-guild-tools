@@ -1,6 +1,6 @@
 Describe "Test New-Lottery" {
     BeforeAll {
-        . "$PSScriptRoot\New-Lottery.ps1"
+        . "$PSScriptRoot\..\public\New-Lottery.ps1"
         $fakePath = "fake/data.csv"
     }
     Context "Invalid data" {

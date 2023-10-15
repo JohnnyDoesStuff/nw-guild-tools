@@ -65,12 +65,7 @@ param (
     $AccountMappingFile
 )
 
-. "$PSScriptRoot\Convert-HashtableToArray.ps1"
-. "$PSScriptRoot\Format-DonationLottery.ps1"
-. "$PSScriptRoot\New-Lottery.ps1"
-. "$PSScriptRoot\Get-PlayerMains.ps1"
-. "$PSScriptRoot\Get-PointsPerAccount.ps1"
-. "$PSScriptRoot\Convert-AltAccount.ps1"
+Import-Module $PSScriptRoot\PowerShell\DonationLottery
 
 $donationDataPath = $DonationLogPath
 if (-not [String]::IsNullOrEmpty($AccountMappingFile)) {

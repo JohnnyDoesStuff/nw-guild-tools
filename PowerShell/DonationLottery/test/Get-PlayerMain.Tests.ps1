@@ -1,8 +1,10 @@
-
 Describe "Test Get-PlayerMain and help functions" {
     BeforeAll {
-        $scriptPath = Join-Path $PSScriptRoot -ChildPath "Get-PlayerMains.ps1"
-        . "$scriptPath"
+        . "$PSScriptRoot\..\public\Get-PlayerMain.ps1"
+        . "$PSScriptRoot\..\private\Convert-UserAnswerToChoice.ps1"
+        . "$PSScriptRoot\..\private\Get-AccountMain.ps1"
+        . "$PSScriptRoot\..\private\Get-AnswerFromUser.ps1"
+        . "$PSScriptRoot\..\private\Remove-Duplicate.ps1"
     }
     Context "Remove-Duplicate" {
         It "Single entry" {

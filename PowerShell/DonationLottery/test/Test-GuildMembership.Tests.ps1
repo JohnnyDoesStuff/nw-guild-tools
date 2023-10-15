@@ -1,6 +1,6 @@
 Describe "Test-GuildMembership" {
     BeforeAll {
-        . "$PSScriptRoot\Test-GuildMembership.ps1"
+        . "$PSScriptRoot\..\private\Test-GuildMembership.ps1"
         $fakeDonationData = @(
             @{}
         )

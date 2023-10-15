@@ -1,6 +1,6 @@
 Describe "Convert-AltAccount" {
     BeforeEach {
-        . "$PSScriptRoot\Convert-AltAccount.ps1"
+        . "$PSScriptRoot\..\public\Convert-AltAccount.ps1"
         $donationFakePath = "fake/path/data.csv"
         $mappingFakePath = "fake/path/mapping.txt"
         $targetFakePath = "fake/path/result.csv"

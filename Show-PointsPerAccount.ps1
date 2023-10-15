@@ -39,9 +39,7 @@ param (
     $DonorsGuild
 )
 
-. "$PSScriptRoot\Convert-HashtableToArray.ps1"
-. "$PSScriptRoot\Get-PlayerMains.ps1"
-. "$PSScriptRoot\Get-PointsPerAccount.ps1"
+Import-Module "$PSScriptRoot\PowerShell\DonationLottery"
 
 $getpointsParams = @{
     DonationLogPath = $DonationLogPath
