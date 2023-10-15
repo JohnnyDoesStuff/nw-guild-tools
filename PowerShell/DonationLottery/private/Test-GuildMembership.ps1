@@ -25,6 +25,6 @@ function Test-GuildMembership {
     $donationsOfTheAccountInsideTheGuild = $donationData | Where-Object {
         ($_."Account Handle" -eq $AccountName) -and ($_."Donor's Guild" -eq $GuildNameToTest)
     }
-    
+
     return ($null -ne $donationsOfTheAccountInsideTheGuild)
 }

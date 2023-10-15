@@ -1,7 +1,7 @@
 <#
     .SYNOPSIS
         Shows the amount of ressources that players donated to a guild
-    
+
     .PARAMETER DonationLogPath
         The path to the *.csv file that contains all the necessary data
         This file must only contain the data from the time you want to use

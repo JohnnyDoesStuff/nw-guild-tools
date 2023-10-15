@@ -1,7 +1,7 @@
 <#
     .SYNOPSIS
         Creates a lottery for people who contributed to your stronghold
-    
+
     .PARAMETER DonationLogPath
         The path to the *.csv file that contains all the necessary data
         This file must only contain the data from the time you want to use
@@ -31,7 +31,7 @@
         (Optional) The path to a file with other accounts of people
         The file must be a simple text files
         Each line is a mapping in this schema "altAccount:mainAccount"
-    
+
     .EXAMPLE
         New-DonationLottery -DonationLogPath .\data\donation.csv -ListLength 10 -Resource "Influence" -ResourceThreshold 400 -RecipientGuild "My Guild"
         New-DonationLottery -DonationLogPath .\data\donation.csv -ListLength 10 -Resource "Influence" -ResourceThreshold 400 -RecipientGuild "My Guild" -AccountIgnoreFile .\data\ignore-accounts.txt -AccountMappingFile .\data\mapping.txt

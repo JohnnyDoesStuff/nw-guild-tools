@@ -48,7 +48,7 @@ Describe "Repair-CsvHeader" {
                     $Value[2] -eq $expectedResult[2]
                 ) -notcontains $false
             } -MockWith {} -Verifiable
-            
+
             Repair-CsvHeader -FilePath $fakeFilePath | Should -Be $null
 
             Should -InvokeVerifiable

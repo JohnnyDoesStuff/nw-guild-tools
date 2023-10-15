@@ -9,5 +9,5 @@ function Format-DonationLottery {
     for ($i = 0; $i -lt $OrderedNames.Count; $i++) {
         "$($i + 1). $($OrderedNames[$i])"
     }
-    
+
 }

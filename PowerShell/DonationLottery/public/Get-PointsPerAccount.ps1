@@ -34,6 +34,6 @@ function Get-PointsPerAccount {
             $accountData.$accountName += $amount
         }
     }
-    
+
     return $accountData
 }

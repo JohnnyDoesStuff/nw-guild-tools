@@ -62,7 +62,7 @@ Describe "Test Get-PlayerMain and help functions" {
             Remove-Duplicate -Array $inputData | Should -Be $expectedResult
         }
     }
-    
+
     Context "Get-AccountMain" {
         It "Account with only one character" {
             $accountName = "foo0"
@@ -124,7 +124,7 @@ Describe "Test Get-PlayerMain and help functions" {
             } -MockWith {
                 $userInput[$script:iteration]
             } -Verifiable
-            
+
             Mock Convert-UserAnswerToChoice -ParameterFilter {
                 $choicesCorrect = $null -eq (Compare-Object -DifferenceObject $Choices -ReferenceObject $fakeChoices)
                 $answerCorrect = $Answer -eq $userInput[$script:iteration]

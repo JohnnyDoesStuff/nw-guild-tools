@@ -6,7 +6,7 @@ Describe "Get-PointsPerAccount" {
         $recipientGuild = "recipient"
         $resource = "dummyItem"
         $script:donationData = $null
-        
+
         Mock Import-Csv -ParameterFilter {
             $Path -eq $fakeDonationLogPath
         } -MockWith {
@@ -134,7 +134,7 @@ Describe "Get-PointsPerAccount" {
             $result.bar | Should -Be $null
             Should -InvokeVerifiable
         }
-        
+
         It "Single user donates to multiple guilds" {
             $script:donationData = @(
                 @{ "Character Name" = "foo"; "Account Handle" = "bar"; "Resource Quantity" = "5"; Resource = $resource; "Recipient Guild" = "some other guild"}
@@ -265,7 +265,7 @@ Describe "Get-PointsPerAccount" {
                 @{ "Character Name" = "foo"; "Account Handle" = $accounts[0]; "Resource Quantity" = "5"; Resource = $resource; "Recipient Guild" = $recipientGuild; "Donor's Guild" = $donorsGuild}
                 @{ "Character Name" = "foo"; "Account Handle" = $accounts[1]; "Resource Quantity" = "3"; Resource = $resource; "Recipient Guild" = $recipientGuild; "Donor's Guild" = $donorsGuild}
             )
-            
+
             Mock Test-GuildMembership -ParameterFilter {
                 @(
                     $accounts -contains $AccountName
@@ -290,7 +290,7 @@ Describe "Get-PointsPerAccount" {
             $result.bar1 | Should -Be 3
             Should -InvokeVerifiable
         }
-        
+
         It "Multiple users from different guilds" {
             $accounts = @("bar0", "bar1")
             $script:donationData = @(

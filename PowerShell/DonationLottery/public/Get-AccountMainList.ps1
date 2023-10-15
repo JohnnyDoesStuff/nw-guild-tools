@@ -7,10 +7,10 @@ function Get-AccountMainList {
         [array]
         $Accounts
     )
-    
+
     $donationData = Import-Csv -Path $DonationLogPath
     $mains = @()
-    
+
     $Accounts | ForEach-Object {
         $mains = $mains + @(
             Get-AccountMain -DonationData $donationData -AccountName $_

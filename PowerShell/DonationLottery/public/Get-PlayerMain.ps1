@@ -16,7 +16,7 @@ function Get-PlayerMain {
     $accounts = $donationData."Account Handle"
     $accounts = Remove-Duplicate -Array $accounts
     $mains = @()
-    
+
     $accounts | ForEach-Object {
         $mains = $mains + @(
             Get-AccountMain -DonationData $donationData -AccountName $_

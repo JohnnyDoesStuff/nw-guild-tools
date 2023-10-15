@@ -5,7 +5,7 @@ function Remove-Duplicate {
         [array]
         $Array
     )
-    
+
     $result = @()
     $Array | ForEach-Object {
         if (-not $result.Contains($_)) {
