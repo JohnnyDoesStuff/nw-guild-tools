@@ -39,7 +39,7 @@ param (
     $DonorsGuild
 )
 
-Import-Module "$PSScriptRoot\PowerShell\DonationLottery"
+Import-Module "$PSScriptRoot\..\DonationLottery"
 
 $getpointsParams = @{
     DonationLogPath = $DonationLogPath

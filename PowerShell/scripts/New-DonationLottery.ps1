@@ -65,7 +65,7 @@ param (
     $AccountMappingFile
 )
 
-Import-Module $PSScriptRoot\PowerShell\DonationLottery
+Import-Module "$PSScriptRoot\..\DonationLottery"
 
 $donationDataPath = $DonationLogPath
 if (-not [String]::IsNullOrEmpty($AccountMappingFile)) {

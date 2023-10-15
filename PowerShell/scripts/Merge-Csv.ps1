@@ -32,7 +32,7 @@ param(
     [String]$TargetFile
 )
 
-Import-Module "$PSScriptRoot\PowerShell\DonationLottery"
+Import-Module "$PSScriptRoot\..\DonationLottery"
 
 $results = @()
 $existingDates = @()
