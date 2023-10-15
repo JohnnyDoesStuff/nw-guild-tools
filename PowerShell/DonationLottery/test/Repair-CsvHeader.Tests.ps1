@@ -1,5 +1,6 @@
 Describe "Repair-CsvHeader" {
     BeforeAll {
+        [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUserDeclaredVarsMoreThanAssignments', '', Justification="Constant variable for the test")]
         $fakeFilePath = "fake/data.csv"
         . "$PSScriptRoot\..\public\Repair-CsvHeader.ps1"
     }

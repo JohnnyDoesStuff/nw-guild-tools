@@ -1,10 +1,13 @@
 Describe "Test-GuildMembership" {
     BeforeAll {
         . "$PSScriptRoot\..\private\Test-GuildMembership.ps1"
+        [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUserDeclaredVarsMoreThanAssignments', '', Justification="Constant variable for the test")]
         $fakeDonationData = @(
             @{}
         )
+        [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUserDeclaredVarsMoreThanAssignments', '', Justification="Constant variable for the test")]
         $fakeGuildName = "My Guild"
+        [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUserDeclaredVarsMoreThanAssignments', '', Justification="Constant variable for the test")]
         $fakeAccountName = "fakeAccount"
     }
     Context "Player is in guild" {

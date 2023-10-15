@@ -3,7 +3,9 @@ Describe "Get-PointsPerAccount" {
         . "$PSScriptRoot\..\public\Get-PointsPerAccount.ps1"
         . "$PSScriptRoot\..\private\Test-GuildMembership.ps1"
         $fakeDonationLogPath = "fakePath"
+        [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUserDeclaredVarsMoreThanAssignments', '', Justification="Constant variable for the test")]
         $recipientGuild = "recipient"
+        [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUserDeclaredVarsMoreThanAssignments', '', Justification="Constant variable for the test")]
         $resource = "dummyItem"
         $script:donationData = $null
 
@@ -196,6 +198,7 @@ Describe "Get-PointsPerAccount" {
 
     Context "Specifiy Donor's Guild" {
         BeforeAll {
+            [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUserDeclaredVarsMoreThanAssignments', '', Justification="Constant variable for the test")]
             $donorsGuild = "donor"
         }
         It "User from the right guild" {

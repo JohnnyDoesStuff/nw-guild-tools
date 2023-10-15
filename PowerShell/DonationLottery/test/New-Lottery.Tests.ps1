@@ -1,6 +1,7 @@
 Describe "Test New-Lottery" {
     BeforeAll {
         . "$PSScriptRoot\..\public\New-Lottery.ps1"
+        [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUserDeclaredVarsMoreThanAssignments', '', Justification="Constant variable for the test")]
         $fakePath = "fake/data.csv"
     }
     Context "Invalid data" {
