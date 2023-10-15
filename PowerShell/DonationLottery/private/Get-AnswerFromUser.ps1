@@ -9,10 +9,7 @@ function Get-AnswerFromUser {
     )
     $result = $null
     do {
-        Write-Host $Question
-        for ($i = 0; $i -lt $Choices.Count; $i++) {
-            Write-Host "[$i]: $($Choices[$i])"
-        }
+        Show-Question -Question $Question -Choices $Choices
         $answer = Read-Host -Prompt "Answer"
         $result = Convert-UserAnswerToChoice -Choices $Choices -Answer $answer
 

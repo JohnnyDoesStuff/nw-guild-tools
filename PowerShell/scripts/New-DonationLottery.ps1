@@ -86,11 +86,11 @@ $getpointsParams = @{
 }
 $rawPoints = Get-PointsPerAccount @getpointsParams
 $points = Convert-HashtableToArray -InputObject $rawPoints
-Write-Host "---- Points per account ----"
+Write-Information "---- Points per account ----"
 $points | ForEach-Object {
-    Write-Host "$($_.Name): $($_.Points)"
+    Write-Information "$($_.Name): $($_.Points)"
 }
-Write-Host "----------------------------"
+Write-Information "----------------------------"
 $getDonationLotteryParams = @{
     PointsPerAccount = $points
     ListLength = $ListLength

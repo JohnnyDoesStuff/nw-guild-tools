@@ -5,6 +5,7 @@ Describe "Test Get-PlayerMain and help functions" {
         . "$PSScriptRoot\..\private\Get-AccountMain.ps1"
         . "$PSScriptRoot\..\private\Get-AnswerFromUser.ps1"
         . "$PSScriptRoot\..\private\Remove-Duplicate.ps1"
+        . "$PSScriptRoot\..\private\Show-Question.ps1"
     }
     Context "Remove-Duplicate" {
         It "Single entry" {
