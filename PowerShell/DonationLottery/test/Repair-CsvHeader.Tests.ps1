@@ -1,7 +1,7 @@
 Describe "Repair-CsvHeader" {
     BeforeAll {
         $fakeFilePath = "fake/data.csv"
-        . "$PSScriptRoot\Repair-CsvHeader.ps1"
+        . "$PSScriptRoot\..\public\Repair-CsvHeader.ps1"
     }
     BeforeEach {
         Mock Get-Content -ParameterFilter {

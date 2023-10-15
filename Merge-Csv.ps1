@@ -32,7 +32,7 @@ param(
     [String]$TargetFile
 )
 
-. "$PSScriptRoot\Repair-CsvHeader"
+Import-Module "$PSScriptRoot\PowerShell\DonationLottery"
 
 $results = @()
 $existingDates = @()
