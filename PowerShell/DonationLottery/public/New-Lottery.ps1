@@ -28,6 +28,7 @@
 
 function New-Lottery {
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", '',Justification="false positive")]
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'PointThreshold', Justification = 'False positive as rule does not know that Where-Object operates within the same scope')]
     [CmdletBinding()]
     param (
         [Parameter(Mandatory)]

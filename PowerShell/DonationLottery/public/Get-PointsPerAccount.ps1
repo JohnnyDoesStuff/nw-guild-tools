@@ -1,4 +1,7 @@
 function Get-PointsPerAccount {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'Resource', Justification = 'False positive as rule does not know that ForEach-Object operates within the same scope')]
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'RecipientGuild', Justification = 'False positive as rule does not know that ForEach-Object operates within the same scope')]
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'DonorsGuild', Justification = 'False positive as rule does not know that ForEach-Object operates within the same scope')]
     param (
         [Parameter(Mandatory)]
         [string]

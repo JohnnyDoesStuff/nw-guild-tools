@@ -23,6 +23,7 @@
 #>
 
 
+[Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'TimePattern', Justification = 'False positive as rule does not know that Where-Object operates within the same scope')]
 param(
     [Parameter(Mandatory)]
     [array]$RawData,
