@@ -1,4 +1,5 @@
 function Format-DonationLottery {
+    [OutputType([String[]])]
     [CmdletBinding()]
     param (
         [Parameter(Mandatory)]
@@ -6,8 +7,8 @@ function Format-DonationLottery {
         $OrderedNames
     )
 
-    for ($i = 0; $i -lt $OrderedNames.Count; $i++) {
+    [string[]]$outputLines = for ($i = 0; $i -lt $OrderedNames.Count; $i++) {
         "$($i + 1). $($OrderedNames[$i])"
     }
-
+    return $outputLines
 }

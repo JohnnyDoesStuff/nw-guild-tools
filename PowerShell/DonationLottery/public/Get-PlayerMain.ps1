@@ -5,6 +5,7 @@
 
 
 function Get-PlayerMain {
+    [OutputType([String[]])]
     [CmdletBinding()]
     param (
         [Parameter(Mandatory)]
@@ -15,7 +16,7 @@ function Get-PlayerMain {
     $donationData = Import-Csv -Path $DonationLogPath
     $accounts = $donationData."Account Handle"
     $accounts = Remove-Duplicate -Array $accounts
-    $mains = @()
+    $mains = [string[]]@()
 
     $accounts | ForEach-Object {
         $mains = $mains + @(
