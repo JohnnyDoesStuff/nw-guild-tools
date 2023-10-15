@@ -27,6 +27,7 @@
 
 
 function New-Lottery {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", '',Justification="false positive")]
     [CmdletBinding()]
     param (
         [Parameter(Mandatory)]
