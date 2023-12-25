@@ -35,6 +35,10 @@ hello              there#23456                   40
 general            kenobi#9876                  200
 ```
 
+### [New-GeneralLottery](./PowerShell/scripts/New-GeneralLottery.ps1)
+
+A PowerShell script that takes an export of your current members and returns a list of random accounts.
+
 ## Tests
 ### PowerShell
 PowerShell scripts can be tested with [Pester](https://pester.dev/) (Major version: 5). Open a PowerShell and execute:
