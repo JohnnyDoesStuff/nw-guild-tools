@@ -51,7 +51,7 @@ param (
     [Parameter(Mandatory)]
     [string]
     $ResourceThreshold,
-    [Parameter(Mandatory)]
+    [Parameter()]
     [string]
     $RecipientGuild,
     [Parameter()]

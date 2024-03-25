@@ -31,7 +31,7 @@ param (
     [Parameter(Mandatory)]
     [string]
     $Resource,
-    [Parameter(Mandatory)]
+    [Parameter()]
     [string]
     $RecipientGuild,
     [Parameter()]

@@ -327,4 +327,99 @@ Describe "Get-PointsPerAccount" {
             Should -InvokeVerifiable
         }
     }
+
+    Context "No recipient guild" {
+        It "Member donates to own guild" {
+            $script:donationData = @(
+                @{ "Character Name" = "foo"; "Account Handle" = "bar0"; "Resource Quantity" = "1"; Resource = $resource; "Recipient Guild" = $recipientGuild}
+                @{ "Character Name" = "foo"; "Account Handle" = "bar0"; "Resource Quantity" = "2"; Resource = $resource; "Recipient Guild" = $recipientGuild}
+            )
+
+            $getpointsParams = @{
+                DonationLogPath = $fakeDonationLogPath
+                Resource = $resource
+            }
+            $result = Get-PointsPerAccount @getpointsParams
+
+            $result.Keys.Count | Should -Be 1
+            $result.bar0 | Should -Be (1 + 2)
+            Should -InvokeVerifiable
+        }
+
+        It "Member donates to a different guild" {
+            $script:donationData = @(
+                @{ "Character Name" = "foo"; "Account Handle" = "bar0"; "Resource Quantity" = "1"; Resource = $resource; "Recipient Guild" = "otherGuild"}
+                @{ "Character Name" = "foo"; "Account Handle" = "bar0"; "Resource Quantity" = "2"; Resource = $resource; "Recipient Guild" = "otherGuild"}
+            )
+
+            $getpointsParams = @{
+                DonationLogPath = $fakeDonationLogPath
+                Resource = $resource
+            }
+            $result = Get-PointsPerAccount @getpointsParams
+
+            $result.Keys.Count | Should -Be 1
+            $result.bar0 | Should -Be (1 + 2)
+            Should -InvokeVerifiable
+        }
+        It "Multiple members from own guild donate to multiple guilds" {
+            $script:donationData = @(
+                @{ "Character Name" = "foo"; "Account Handle" = "bar0"; "Resource Quantity" = "1"; Resource = $resource; "Recipient Guild" = "otherGuild"}
+                @{ "Character Name" = "foo"; "Account Handle" = "bar0"; "Resource Quantity" = "2"; Resource = $resource; "Recipient Guild" = "otherGuild"}
+                @{ "Character Name" = "es"; "Account Handle" = "bar1"; "Resource Quantity" = "1"; Resource = $resource; "Recipient Guild" = "otherGuild"}
+                @{ "Character Name" = "es"; "Account Handle" = "bar1"; "Resource Quantity" = "2"; Resource = $resource; "Recipient Guild" = "otherGuild"}
+            )
+
+            $getpointsParams = @{
+                DonationLogPath = $fakeDonationLogPath
+                Resource = $resource
+            }
+            $result = Get-PointsPerAccount @getpointsParams
+
+            $result.Keys.Count | Should -Be 2
+            $result.bar0 | Should -Be (1 + 2)
+            $result.bar1 | Should -Be (1 + 2)
+            Should -InvokeVerifiable
+        }
+
+        It "Multiple members from different guilds donate to multiple guilds" {
+            $script:donationData = @(
+                @{ "Character Name" = "foo"; "Account Handle" = "bar0"; "Resource Quantity" = "1"; Resource = $resource; "Recipient Guild" = $recipientGuild; "Donor's Guild" = "differentGuild"}
+                @{ "Character Name" = "foo"; "Account Handle" = "bar0"; "Resource Quantity" = "2"; Resource = $resource; "Recipient Guild" = $recipientGuild; "Donor's Guild" = "differentGuild"}
+                @{ "Character Name" = "es"; "Account Handle" = "bar1"; "Resource Quantity" = "1"; Resource = $resource; "Recipient Guild" = $recipientGuild; "Donor's Guild" = "ownGuild"}
+                @{ "Character Name" = "es"; "Account Handle" = "bar1"; "Resource Quantity" = "2"; Resource = $resource; "Recipient Guild" = "otherGuild"; "Donor's Guild" = "ownGuild"}
+            )
+
+            $getpointsParams = @{
+                DonationLogPath = $fakeDonationLogPath
+                Resource = $resource
+            }
+            $result = Get-PointsPerAccount @getpointsParams
+
+            $result.Keys.Count | Should -Be 2
+            $result.bar0 | Should -Be (1 + 2)
+            $result.bar1 | Should -Be (1 + 2)
+            Should -InvokeVerifiable
+        }
+
+        It "Multiple members from different guilds donate to multiple guilds but only the own members are considered" {
+            $script:donationData = @(
+                @{ "Character Name" = "foo"; "Account Handle" = "bar0"; "Resource Quantity" = "1"; Resource = $resource; "Recipient Guild" = $recipientGuild; "Donor's Guild" = "differentGuild"}
+                @{ "Character Name" = "foo"; "Account Handle" = "bar0"; "Resource Quantity" = "2"; Resource = $resource; "Recipient Guild" = $recipientGuild; "Donor's Guild" = "differentGuild"}
+                @{ "Character Name" = "es"; "Account Handle" = "bar1"; "Resource Quantity" = "1"; Resource = $resource; "Recipient Guild" = $recipientGuild; "Donor's Guild" = "ownGuild"}
+                @{ "Character Name" = "es"; "Account Handle" = "bar1"; "Resource Quantity" = "2"; Resource = $resource; "Recipient Guild" = "otherGuild"; "Donor's Guild" = "ownGuild"}
+            )
+
+            $getpointsParams = @{
+                DonationLogPath = $fakeDonationLogPath
+                Resource = $resource
+                DonorsGuild = "ownGuild"
+            }
+            $result = Get-PointsPerAccount @getpointsParams
+
+            $result.Keys.Count | Should -Be 1
+            $result.bar1 | Should -Be (1 + 2)
+            Should -InvokeVerifiable
+        }
+    }
 }

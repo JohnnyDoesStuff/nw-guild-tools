@@ -9,7 +9,7 @@ function Get-PointsPerAccount {
         [Parameter(Mandatory)]
         [string]
         $Resource,
-        [Parameter(Mandatory)]
+        [Parameter()]
         [string]
         $RecipientGuild,
         [Parameter()]
@@ -29,7 +29,7 @@ function Get-PointsPerAccount {
         }
         $conditions = @(
             $_.Resource -eq $Resource
-            $_."Recipient Guild" -eq $RecipientGuild
+            ([String]::IsNullOrEmpty($RecipientGuild)) -or ($_."Recipient Guild" -eq $RecipientGuild)
             ([String]::IsNullOrEmpty($DonorsGuild)) -or (Test-GuildMembership @testMembershipParams)
         )
         if ($conditions -notcontains $false) {
