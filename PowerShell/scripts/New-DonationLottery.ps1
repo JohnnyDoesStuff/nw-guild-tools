@@ -98,6 +98,11 @@ $getDonationLotteryParams = @{
     AccountIgnoreFile = $AccountIgnoreFile
 }
 $winnerAccounts = New-Lottery @getDonationLotteryParams
-$characterNames = Get-AccountMainList -DonationLogPath $donationDataPath -Accounts $winnerAccounts
-$resultText = Format-DonationLottery -OrderedNames $characterNames
+$accounts = Get-AccountMainList -DonationLogPath $donationDataPath -Accounts $winnerAccounts
+
+$namesWithAccount = $accounts | ForEach-Object {
+    "$($_.Main)@$($_.Account)"
+}
+
+$resultText = Format-DonationLottery -OrderedNames $namesWithAccount
 return $resultText

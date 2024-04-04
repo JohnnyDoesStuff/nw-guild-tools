@@ -9,12 +9,17 @@ function Get-AccountMainList {
     )
 
     $donationData = Import-Csv -Path $DonationLogPath
-    $mains = @()
+    $mainList = @()
 
     $Accounts | ForEach-Object {
-        $mains = $mains + @(
-            Get-AccountMain -DonationData $donationData -AccountName $_
+        $main = Get-AccountMain -DonationData $donationData -AccountName $_
+        $mainList = $mainList + @(
+            @{
+                Account = $_
+                Main = $main
+            }
         )
     }
-    return $mains
+
+    return $mainList
 }

@@ -49,7 +49,8 @@ $getpointsParams = @{
 }
 $rawPoints = Get-PointsPerAccount @getpointsParams
 $points = Convert-HashtableToArray -InputObject $rawPoints
-$characterNames = Get-AccountMainList -DonationLogPath $DonationLogPath -Accounts $points.Name
+$accounts = Get-AccountMainList -DonationLogPath $DonationLogPath -Accounts $points.Name
+$characterNames = $accounts.Main
 
 $summedDonationData = for ($i = 0; $i -lt $points.Count; $i++) {
     [PSCustomObject]@{
