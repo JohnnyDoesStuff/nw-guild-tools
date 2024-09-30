@@ -18,8 +18,8 @@
     Each account that will be ignored has to be in a separate line
 
 .EXAMPLE
-    Test-MyTestFunction -Verbose
-    Explanation of the function or its result. You can include multiple examples with additional .EXAMPLE lines
+    .\New-GeneralLottery.ps1 -GuildMemberList .\data\members.csv -ListLength 10
+    Print 10 random accounts from the members listes in .\data\members.csv
 #>
 
 param(
