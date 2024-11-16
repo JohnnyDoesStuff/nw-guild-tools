@@ -1,8 +1,10 @@
+from datetime import date, datetime
 import os
 import unittest
 
+from PythonTools.Rankup.Account import Account
 from PythonTools.Rankup.RankupProposal import RankupProposal
-
+from PythonTools.Rankup.RankupRule import RankupRule
 
 class RankupTest(unittest.TestCase):
 
@@ -18,6 +20,26 @@ class RankupTest(unittest.TestCase):
 
         self.assertEqual(len(accounts), 2)
         self.assertEqual(accounts[0].account_handle, "@bar")
-        self.assertEqual(accounts[0].join_date, "1.1.2024, 10:00:00")
+        self.assertEqual(accounts[0].guild_rank, "FakeRank1")
+        self.assertEqual(accounts[0].join_date, datetime(2024, 1, 1, 10, 0, 0))
         self.assertEqual(accounts[1].account_handle, "@baz")
-        self.assertEqual(accounts[1].join_date, "2.1.2024, 10:00:00")
+        self.assertEqual(accounts[1].guild_rank, "FakeRank2")
+        self.assertEqual(accounts[1].join_date, datetime(2024, 1, 2, 10, 0, 0))
+
+    def test_creates_rankup_proposal_for_rank1_accounts(self):
+        rankup_rule = RankupRule(rank = "rank1", rankup_after=30)
+        accounts = [
+            Account(
+                account_handle = "@bar",
+                guild_rank = "rank1",
+                join_date = datetime(2024, 1, 1, 10, 0, 0)
+            ),
+        ]
+        reference_date = date(2024, 2, 1)
+
+        rankup_tool = RankupProposal()
+        rankup_proposal = rankup_tool.create_rankup_proposal_for_accounts(
+            rankup_rule, accounts, reference_date)
+
+        self.assertEqual(len(rankup_proposal), 1)
+        self.assertEqual(rankup_proposal[0], accounts[0])
