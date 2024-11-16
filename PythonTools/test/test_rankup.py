@@ -43,3 +43,89 @@ class RankupTest(unittest.TestCase):
 
         self.assertEqual(len(rankup_proposal), 1)
         self.assertEqual(rankup_proposal[0], accounts[0])
+
+    def test_does_not_rankup_too_new_members(self):
+        rankup_rule = RankupRule(rank = "rank1", rankup_after=30)
+        accounts = [
+            Account(
+                account_handle = "@bar",
+                guild_rank = "rank1",
+                join_date = datetime(2024, 1, 20, 10, 0, 0)
+            ),
+        ]
+        reference_date = date(2024, 2, 1)
+
+        rankup_tool = RankupProposal()
+        rankup_proposal = rankup_tool.create_rankup_proposal_for_accounts(
+            rankup_rule, accounts, reference_date)
+
+        self.assertEqual(len(rankup_proposal), 0)
+
+    def test_rankup_with_multiple_accounts(self):
+        rankup_rule = RankupRule(rank = "rank1", rankup_after=30)
+        accounts = [
+            Account(
+                account_handle = "@bar",
+                guild_rank = "rank1",
+                join_date = datetime(2024, 1, 1, 10, 0, 0)
+            ),
+            Account(
+                account_handle = "@baz",
+                guild_rank = "rank1",
+                join_date = datetime(2024, 1, 20, 10, 0, 0)
+            ),
+        ]
+        reference_date = date(2024, 2, 1)
+
+        rankup_tool = RankupProposal()
+        rankup_proposal = rankup_tool.create_rankup_proposal_for_accounts(
+            rankup_rule, accounts, reference_date)
+
+        self.assertEqual(len(rankup_proposal), 1)
+        self.assertEqual(rankup_proposal[0], accounts[0])
+
+    def test_rankup_with_different_ranks(self):
+        rankup_rule = RankupRule(rank = "rank1", rankup_after=30)
+        accounts = [
+            Account(
+                account_handle = "@bar",
+                guild_rank = "rank1",
+                join_date = datetime(2024, 1, 1, 10, 0, 0)
+            ),
+            Account(
+                account_handle = "@baz",
+                guild_rank = "rank2",
+                join_date = datetime(2023, 12, 1, 10, 0, 0)
+            ),
+        ]
+        reference_date = date(2024, 2, 1)
+
+        rankup_tool = RankupProposal()
+        rankup_proposal = rankup_tool.create_rankup_proposal_for_accounts(
+            rankup_rule, accounts, reference_date)
+
+        self.assertEqual(len(rankup_proposal), 1)
+        self.assertEqual(rankup_proposal[0], accounts[0])
+
+    def test_apply_rule_for_higher_ranks(self):
+        rankup_rule = RankupRule(rank = "rank2", rankup_after=90)
+        accounts = [
+            Account(
+                account_handle = "@bar",
+                guild_rank = "rank1",
+                join_date = datetime(2024, 1, 1, 10, 0, 0)
+            ),
+            Account(
+                account_handle = "@baz",
+                guild_rank = "rank2",
+                join_date = datetime(2023, 12, 1, 10, 0, 0)
+            ),
+        ]
+        reference_date = date(2024, 3, 1)
+
+        rankup_tool = RankupProposal()
+        rankup_proposal = rankup_tool.create_rankup_proposal_for_accounts(
+            rankup_rule, accounts, reference_date)
+
+        self.assertEqual(len(rankup_proposal), 1)
+        self.assertEqual(rankup_proposal[0], accounts[1])
