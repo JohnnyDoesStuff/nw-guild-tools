@@ -46,3 +46,10 @@ PowerShell scripts can be tested with [Pester](https://pester.dev/) (Major versi
 ```PowerShell
 Invoke-Pester
 ```
+
+### Python
+Python tools in this repository are tested with default tools. Execute from the repository's root:
+
+```
+python -m unittest discover PythonTools/test
+```
