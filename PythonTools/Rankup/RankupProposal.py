@@ -23,7 +23,7 @@ class RankupProposal:
                 so you may have to repair it before using this function.
 
         Returns:
-            list: A list of Account objects with account handle, guild rank, and join date.
+            list: A list of Account objects.
         """
         print(f"Reading accounts from {path}")
         raw_account_data = pd.read_csv(path)
