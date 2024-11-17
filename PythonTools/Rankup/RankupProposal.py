@@ -39,6 +39,29 @@ class RankupProposal:
             accounts.append(account)
         return accounts
 
+    def read_rules(self, path: str) -> list:
+        """
+        Reads rule information from a CSV file and returns a list of RankupRule objects.
+
+        Args:
+            path (str): The file path to the CSV file containing rule data.
+                This is a file you have to create manually
+
+        Returns:
+            list: A list of RankupRule objects.
+        """
+        print(f"Reading rules from {path}")
+        raw_rule_data = pd.read_csv(path)
+
+        rules = []
+        for _, row in raw_rule_data.iterrows():
+            rule = RankupRule(
+                row['Rank'],
+                row['RankupAfter']
+            )
+            rules.append(rule)
+        return rules
+
     def create_rankup_proposal_for_accounts(self,
                                             rankup_rule: RankupRule,
                                             accounts: list,
