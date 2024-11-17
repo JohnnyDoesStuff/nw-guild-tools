@@ -26,6 +26,24 @@ class RankupTest(unittest.TestCase):
         self.assertEqual(accounts[1].guild_rank, "FakeRank2")
         self.assertEqual(accounts[1].join_date, datetime(2024, 1, 2, 10, 0, 0))
 
+    def test_read_rules_from_file(self):
+        file_path = "testdata/testRules.csv"
+        current_directory = os.path.dirname(
+            os.path.abspath(__file__)
+        )
+        full_path = os.path.join(current_directory, file_path)
+        rankup_tool = RankupProposal()
+
+        rules = rankup_tool.read_rules(full_path)
+
+        self.assertEqual(len(rules), 3)
+        self.assertEqual(rules[0].rank, 'Rank1')
+        self.assertEqual(rules[0].rankup_after, 30)
+        self.assertEqual(rules[1].rank, 'Rank2')
+        self.assertEqual(rules[1].rankup_after, 90)
+        self.assertEqual(rules[2].rank, 'Rank3')
+        self.assertEqual(rules[2].rankup_after, 180)
+
     def test_creates_rankup_proposal_for_rank1_accounts(self):
         rankup_rule = RankupRule(rank = "rank1", rankup_after=30)
         accounts = [
