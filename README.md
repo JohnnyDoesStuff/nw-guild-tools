@@ -39,6 +39,22 @@ general            kenobi#9876                  200
 
 A PowerShell script that takes an export of your current members and returns a list of random accounts.
 
+### Rankup
+This tool assumes that certain members of a certain rank should automatically get promoted if they are within the guild for a certain time. For example, when rank 1 members got a probation time of 30 days.
+
+You have to create a rule file that defines when which rank should receive a promotion. It has to be a \*.csv file, e.g.:
+```csv
+Rank,RankupAfter
+Rank1,30
+Rank2,90
+Rank3,180
+```
+
+Use the help of the tool for further information (Execute it as a Python module like shown below, since the tool is intended to be executable from this repository's root with tools written in other languages):
+```bash
+python -m PythonTools.Rankup -h
+```
+
 ## Tests
 ### PowerShell
 PowerShell scripts can be tested with [Pester](https://pester.dev/) (Major version: 5). Open a PowerShell and execute:
