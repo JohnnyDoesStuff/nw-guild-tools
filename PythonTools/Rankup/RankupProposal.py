@@ -1,8 +1,8 @@
 from datetime import date, datetime
 import pandas as pd
 
-from PythonTools.Rankup.Account import Account
-from PythonTools.Rankup.RankupRule import RankupRule
+from .Account import Account
+from .RankupRule import RankupRule
 
 class RankupProposal:
     def __init__(self):
