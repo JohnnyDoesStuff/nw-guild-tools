@@ -1,4 +1,5 @@
 import argparse
+import os
 
 from .RankupProposal import RankupProposal
 
@@ -24,7 +25,26 @@ class RankupProposalCreator:
 
         return args
 
+    def check_args(self):
+        if self.args.rule_path is None:
+            print('No rule path provided')
+            exit(1)
+
+        if self.args.member_path is None:
+            print('No member path provided')
+            exit(1)
+
+        if not os.path.isfile(self.args.rule_path):
+            print(f"Rule path '{self.args.rule_path}' does not exist")
+            exit(1)
+
+        if not os.path.isfile(self.args.member_path):
+            print(f"Member path '{self.args.member_path}' does not exist")
+            exit(1)
+
     def create_proposal(self):
+        self.check_args()
+
         print(self.args.rule_path)
         print(self.args.member_path)
 
