@@ -1,4 +1,5 @@
 import argparse
+from datetime import date
 import os
 
 from .RankupProposal import RankupProposal
@@ -7,6 +8,7 @@ from .RankupProposal import RankupProposal
 class RankupProposalCreator:
     def __init__(self):
         self.args = self.parse_args()
+        self.rankup_tool = RankupProposal()
 
     def parse_args(self) -> argparse.Namespace:
         parser = argparse.ArgumentParser(
@@ -42,13 +44,30 @@ class RankupProposalCreator:
             print(f"Member path '{self.args.member_path}' does not exist")
             exit(1)
 
+    def create_proposal_for_single_rule(self, rule, accounts):
+        print(f"Members of rank {rule.rank} that should be promoted:")
+        accountsToPromote = self.rankup_tool.create_rankup_proposal_for_accounts(
+            rule,
+            accounts,
+            date.today()
+        )
+
+        for account in accountsToPromote:
+            print(f" - {account.account_handle}")
+
     def create_proposal(self):
         self.check_args()
 
-        print(self.args.rule_path)
-        print(self.args.member_path)
+        rules = self.rankup_tool.read_rules(self.args.rule_path)
+        accounts = self.rankup_tool.read_accounts(self.args.member_path)
 
-        print('not implemented yet')
+        print('==============================')
+        print('=== Proposal for promotion ===')
+        print('==============================')
+
+        for rule in rules:
+            self.create_proposal_for_single_rule(rule, accounts)
+
 
 def main():
     proposal_creator = RankupProposalCreator()
