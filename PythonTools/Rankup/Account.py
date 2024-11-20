@@ -13,4 +13,4 @@ class Account:
         self.join_date = join_date
 
     def __str__(self):
-        return f"{self.account_handle} joined on {self.join_date}"
+        return f"{self.account_handle}, Rank {self.guild_rank}, joined on {self.join_date}"

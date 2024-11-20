@@ -1,4 +1,8 @@
 class RankupRule:
+
+    rank: str
+    rankup_after: int
+
     def __init__(self, rank: str, rankup_after: int):
         self.rank = rank
         self.rankup_after = rankup_after
