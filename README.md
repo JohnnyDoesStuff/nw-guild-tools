@@ -39,6 +39,13 @@ general            kenobi#9876                  200
 
 A PowerShell script that takes an export of your current members and returns a list of random accounts.
 
+### Csv Repair
+
+A tool that repairs ill-formed Member exports because Neverwinter does not properly export \*.csv files in some languages. For information about how to use this tool, please have a look at its help:
+```bash
+python -m PythonTools.CsvRepair -h
+```
+
 ### Rankup
 This tool assumes that certain members of a certain rank should automatically get promoted if they are within the guild for a certain time. For example, when rank 1 members got a probation time of 30 days.
 
