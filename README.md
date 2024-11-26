@@ -2,6 +2,11 @@
 
 This repository contains utility tools for managing guilds within the MMO game Neverwinter.
 
+Tools are written in different languages since this repository is also used as a playground to try different things.
+
+Because of that, the tools are intended to be executable from the repository's root. This means that e.g. for Python tools the documentation describes to use them as modules.
+
+(Execute it as a Python module like shown below, since the tool is intended to be executable from this repository's root. The background is that i use different programming languages)
 
 ## Functions
 ### [Merge-Csv.ps1](./PowerShell/scripts/Merge-Csv.ps1)
@@ -41,7 +46,7 @@ A PowerShell script that takes an export of your current members and returns a l
 
 ### Csv Repair
 
-A tool that repairs ill-formed Member exports because Neverwinter does not properly export \*.csv files in some languages. For information about how to use this tool, please have a look at its help:
+A tool that repairs ill-formed Member exports because Neverwinter does not properly export \*.csv files in some languages (Currently only tested for german exports; please create an issue to request more languages). For information about how to use this tool, please have a look at its help:
 ```bash
 python -m PythonTools.CsvRepair -h
 ```
@@ -57,7 +62,7 @@ Rank2,90
 Rank3,180
 ```
 
-Use the help of the tool for further information (Execute it as a Python module like shown below, since the tool is intended to be executable from this repository's root with tools written in other languages):
+Use the help of the tool for further information:
 ```bash
 python -m PythonTools.Rankup -h
 ```
