@@ -45,13 +45,13 @@ class RankupProposalCreator:
             exit(1)
 
     def create_proposal_for_single_rule(self, rule, accounts):
-        print(f"Members of rank {rule.rank} that should be promoted:")
         accountsToPromote = self.rankup_tool.create_rankup_proposal_for_accounts(
             rule,
             accounts,
             date.today()
         )
 
+        print(f"Members of rank {rule.rank} that should be promoted:")
         for account in accountsToPromote:
             print(f" - {account.account_handle}")
 
