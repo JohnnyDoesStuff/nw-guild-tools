@@ -6,8 +6,6 @@ Tools are written in different languages since this repository is also used as a
 
 Because of that, the tools are intended to be executable from the repository's root. This means that e.g. for Python tools the documentation describes to use them as modules.
 
-(Execute it as a Python module like shown below, since the tool is intended to be executable from this repository's root. The background is that i use different programming languages)
-
 ## Functions
 ### [Merge-Csv.ps1](./PowerShell/scripts/Merge-Csv.ps1)
 A PowerShell script to merge *.csv files with donation data. You can get those files by executing the following command ingame (Replace the path with a proper value):
