@@ -147,3 +147,98 @@ class RankupTest(unittest.TestCase):
 
         self.assertEqual(len(rankup_proposal), 1)
         self.assertEqual(rankup_proposal[0], accounts[1])
+
+    def test_removes_duplicates(self):
+        rankup_rule = RankupRule(rank = "rank1", rankup_after=30)
+        accounts = [
+            Account(
+                account_handle = "@bar",
+                guild_rank = "rank1",
+                join_date = datetime(2024, 1, 1, 10, 0, 0)
+            ),
+            Account(
+                account_handle = "@bar",
+                guild_rank = "rank1",
+                join_date = datetime(2024, 1, 1, 10, 0, 0)
+            ),
+        ]
+        reference_date = date(2024, 2, 1)
+
+        rankup_tool = RankupProposal()
+        rankup_proposal = rankup_tool.create_rankup_proposal_for_accounts(
+            rankup_rule, accounts, reference_date)
+
+        self.assertEqual(len(rankup_proposal), 1)
+        self.assertEqual(rankup_proposal[0].account_handle, accounts[0].account_handle)
+        self.assertEqual(rankup_proposal[0].guild_rank, accounts[0].guild_rank)
+        self.assertEqual(rankup_proposal[0].join_date, accounts[0].join_date)
+
+    def test_the_oldest_account_instance_counts_as_a_rankup_proposal(self):
+        rankup_rule = RankupRule(rank = "rank1", rankup_after=30)
+        accounts = [
+            Account(
+                account_handle = "@bar",
+                guild_rank = "rank1",
+                join_date = datetime(2024, 1, 1, 10, 0, 0)
+            ),
+            Account(
+                account_handle = "@bar",
+                guild_rank = "rank1",
+                join_date = datetime(2024, 1, 20, 10, 0, 0)
+            ),
+        ]
+        reference_date = date(2024, 3, 1)
+
+        rankup_tool = RankupProposal()
+        rankup_proposal = rankup_tool.create_rankup_proposal_for_accounts(
+            rankup_rule, accounts, reference_date)
+
+        self.assertEqual(len(rankup_proposal), 1)
+        self.assertEqual(rankup_proposal[0], accounts[0])
+
+    def test_the_order_of_account_duplicates_does_not_matter(self):
+        rankup_rule = RankupRule(rank = "rank1", rankup_after=30)
+        accounts = [
+            Account(
+                account_handle = "@bar",
+                guild_rank = "rank1",
+                join_date = datetime(2024, 1, 20, 10, 0, 0)
+            ),
+            Account(
+                account_handle = "@bar",
+                guild_rank = "rank1",
+                join_date = datetime(2024, 1, 10, 10, 0, 0)
+            ),
+        ]
+        reference_date = date(2024, 3, 1)
+
+        rankup_tool = RankupProposal()
+        rankup_proposal = rankup_tool.create_rankup_proposal_for_accounts(
+            rankup_rule, accounts, reference_date)
+
+        self.assertEqual(len(rankup_proposal), 1)
+        self.assertEqual(rankup_proposal[0], accounts[1])
+
+    def test_proposals_are_sorted_alphabetically(self):
+        rankup_rule = RankupRule(rank = "rank1", rankup_after=30)
+        accounts = [
+            Account(
+                account_handle = "@def",
+                guild_rank = "rank1",
+                join_date = datetime(2024, 1, 20, 10, 0, 0)
+            ),
+            Account(
+                account_handle = "@abc",
+                guild_rank = "rank1",
+                join_date = datetime(2024, 1, 10, 10, 0, 0)
+            ),
+        ]
+        reference_date = date(2024, 3, 1)
+
+        rankup_tool = RankupProposal()
+        rankup_proposal = rankup_tool.create_rankup_proposal_for_accounts(
+            rankup_rule, accounts, reference_date)
+
+        self.assertEqual(len(rankup_proposal), 2)
+        self.assertEqual(rankup_proposal[0], accounts[1])
+        self.assertEqual(rankup_proposal[1], accounts[0])

@@ -12,6 +12,20 @@ class RankupProposal:
         # todo: support more timeformats
         return datetime.strptime(date_string, "%d.%m.%Y, %H:%M:%S")
 
+    def _add_account_to_list(self, account_list: list, account: Account):
+        account_list = account_list.copy()
+        for existing_account in account_list:
+            if existing_account.account_handle == account.account_handle:
+                if existing_account.join_date > account.join_date:
+                    account_list.remove(existing_account)
+                    account_list.append(account)
+                    return account_list
+                else:
+                    return account_list
+
+        account_list.append(account)
+        return account_list
+
     def read_accounts(self, path: str) -> list:
         """
         Reads account information from a CSV file and returns a list of Account objects.
@@ -87,9 +101,12 @@ class RankupProposal:
             days_since_join = (reference_date - join_date).days
 
             if (days_since_join >= rankup_rule.rankup_after) and \
-                (account.guild_rank == rankup_rule.rank):
+                (account.guild_rank == rankup_rule.rank) and \
+                (account not in rankup_proposal):
 
-                rankup_proposal.append(account)
+                rankup_proposal = self._add_account_to_list(rankup_proposal, account)
+
+        rankup_proposal.sort(key=lambda account: account.account_handle)
 
         return rankup_proposal
 
