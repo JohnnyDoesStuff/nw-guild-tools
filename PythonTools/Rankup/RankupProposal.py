@@ -76,7 +76,7 @@ class RankupProposal:
 
                 rankup_proposal = self._add_account_to_list(rankup_proposal, account)
 
-        rankup_proposal.sort(key=lambda account: account.account_handle)
+        rankup_proposal.sort(key=lambda account: account.account_handle.lower())
 
         return rankup_proposal
 

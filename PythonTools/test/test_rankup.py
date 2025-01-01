@@ -226,5 +226,37 @@ class RankupTest(unittest.TestCase):
         self.assertEqual(rankup_proposal[1], accounts[0])
 
     def test_sorting_is_case_insensitive(self):
-        # todo
+        rankup_rule = RankupRule(rank = "rank1", rankup_after=30)
+        accounts = [
+            Account(
+                account_handle = "@DEF",
+                guild_rank = "rank1",
+                join_date = datetime(2024, 1, 20, 10, 0, 0)
+            ),
+            Account(
+                account_handle = "@abc",
+                guild_rank = "rank1",
+                join_date = datetime(2024, 1, 10, 10, 0, 0)
+            ),
+            Account(
+                account_handle = "@doh",
+                guild_rank = "rank1",
+                join_date = datetime(2024, 1, 10, 10, 0, 0)
+            )
+        ]
+        reference_date = date(2024, 3, 1)
+
+        rankup_tool = RankupProposal()
+        rankup_proposal = rankup_tool.create_rankup_proposal_for_accounts(
+            rankup_rule, accounts, reference_date)
+
+        print('=====================')
+        for account in rankup_proposal:
+            print(account.account_handle)
+        print('=====================')
+
+        self.assertEqual(len(rankup_proposal), 3)
+        self.assertEqual(rankup_proposal[0], accounts[1])
+        self.assertEqual(rankup_proposal[1], accounts[0])
+        self.assertEqual(rankup_proposal[2], accounts[2])
         pass
