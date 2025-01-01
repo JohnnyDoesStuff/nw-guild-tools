@@ -2,6 +2,8 @@ import argparse
 from datetime import date
 import os
 
+from PythonTools.NwAccount.AccountReader import AccountReader
+
 from .RankupProposal import RankupProposal
 
 
@@ -59,7 +61,8 @@ class RankupProposalCreator:
         self.check_args()
 
         rules = self.rankup_tool.read_rules(self.args.rule_path)
-        accounts = self.rankup_tool.read_accounts(self.args.member_path)
+        account_reader = AccountReader()
+        accounts = account_reader.read_accounts(self.args.member_path)
 
         print('==============================')
         print('=== Proposal for promotion ===')

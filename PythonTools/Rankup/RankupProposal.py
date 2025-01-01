@@ -1,16 +1,13 @@
-from datetime import date, datetime
+from datetime import date
 import pandas as pd
 
-from .Account import Account
+from PythonTools.NwAccount.Account import Account
+
 from .RankupRule import RankupRule
 
 class RankupProposal:
     def __init__(self):
         print("Rankup init")
-
-    def _convert_date_to_date_object(self, date_string: str) -> datetime:
-        # todo: support more timeformats
-        return datetime.strptime(date_string, "%d.%m.%Y, %H:%M:%S")
 
     def _add_account_to_list(self, account_list: list, account: Account):
         account_list = account_list.copy()
@@ -25,33 +22,6 @@ class RankupProposal:
 
         account_list.append(account)
         return account_list
-
-    def read_accounts(self, path: str) -> list:
-        """
-        Reads account information from a CSV file and returns a list of Account objects.
-
-        Args:
-            path (str): The file path to the CSV file containing account data.
-                The file must be properly formatted.
-                Neverwinter does not export data properly with some languages,
-                so you may have to repair it before using this function.
-
-        Returns:
-            list: A list of Account objects.
-        """
-        print(f"Reading accounts from {path}")
-        raw_account_data = pd.read_csv(path)
-
-        accounts = []
-        for _, row in raw_account_data.iterrows():
-            join_date = self._convert_date_to_date_object(row['Join Date'])
-            account = Account(
-                row['Account Handle'],
-                row['Guild Rank'],
-                join_date
-            )
-            accounts.append(account)
-        return accounts
 
     def read_rules(self, path: str) -> list:
         """
