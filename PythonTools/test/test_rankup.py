@@ -250,11 +250,6 @@ class RankupTest(unittest.TestCase):
         rankup_proposal = rankup_tool.create_rankup_proposal_for_accounts(
             rankup_rule, accounts, reference_date)
 
-        print('=====================')
-        for account in rankup_proposal:
-            print(account.account_handle)
-        print('=====================')
-
         self.assertEqual(len(rankup_proposal), 3)
         self.assertEqual(rankup_proposal[0], accounts[1])
         self.assertEqual(rankup_proposal[1], accounts[0])
