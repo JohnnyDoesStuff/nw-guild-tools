@@ -10,23 +10,23 @@ class AccountReader:
         # todo: support more timeformats
         return datetime.strptime(date_string, "%d.%m.%Y, %H:%M:%S")
 
-    def _add_account_data_to_list(self, account_list: list, account: Account):
-        account_list = account_list.copy()
+    def _merge_account_data_into_list(self, all_account_data: list, new_account_data: Account):
+        all_account_data = all_account_data.copy()
         saved_account = None
-        for existing_account in account_list:
-            if existing_account.account_handle == account.account_handle:
+        for existing_account in all_account_data:
+            if existing_account.account_handle == new_account_data.account_handle:
                 saved_account = existing_account
                 break
 
         if saved_account is not None:
-            if saved_account.join_date > account.join_date:
-                saved_account.join_date = account.join_date
-            if saved_account.last_active_date < account.last_active_date:
-                saved_account.last_active_date = account.last_active_date
+            if saved_account.join_date > new_account_data.join_date:
+                saved_account.join_date = new_account_data.join_date
+            if saved_account.last_active_date < new_account_data.last_active_date:
+                saved_account.last_active_date = new_account_data.last_active_date
         else:
-            account_list.append(account)
+            all_account_data.append(new_account_data)
 
-        return account_list
+        return all_account_data
 
     def read_accounts(self, path: str) -> list:
         """
@@ -42,19 +42,26 @@ class AccountReader:
 
         Returns:
             list: A list of Account objects.
+                The accounts contain the combination of the data that is
+                automatically retrievable from all of their characters' data
+                in the guild. (e.g. latest active date)
         """
         print(f"Reading accounts from {path}")
         raw_account_data = pd.read_csv(path)
 
-        accounts = []
+        all_accounts = []
         for _, row in raw_account_data.iterrows():
             join_date = self._convert_date_to_date_object(row['Join Date'])
             last_active_date = self._convert_date_to_date_object(row['Last Active Date'])
-            account = Account(
+            account_data_of_current_character = Account(
                 row['Account Handle'],
                 row['Guild Rank'],
                 join_date,
                 last_active_date = last_active_date
             )
-            accounts = self._add_account_data_to_list(accounts, account)
-        return accounts
+
+            all_accounts = self._merge_account_data_into_list(
+                all_accounts,
+                account_data_of_current_character
+            )
+        return all_accounts
