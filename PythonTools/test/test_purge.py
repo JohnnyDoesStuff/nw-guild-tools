@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date, datetime
 import os
 import unittest
 
@@ -36,7 +36,7 @@ class PurgeProposalTest(unittest.TestCase):
                 last_active_date = datetime(2024, 1, 31, 12, 0, 0)
             )
         ]
-        reference_date = datetime(2024, 4, 1)
+        reference_date = date(2024, 4, 1)
 
         purge_tool = PurgeProposal()
 
@@ -65,7 +65,7 @@ class PurgeProposalTest(unittest.TestCase):
                 last_active_date = datetime(2024, 3, 31, 12, 0, 0)
             )
         ]
-        reference_date = datetime(2024, 4, 1)
+        reference_date = date(2024, 4, 1)
 
         purge_tool = PurgeProposal()
 
@@ -94,7 +94,7 @@ class PurgeProposalTest(unittest.TestCase):
                 last_active_date = datetime(2024, 1, 31, 12, 0, 0)
             )
         ]
-        reference_date = datetime(2024, 4, 1)
+        reference_date = date(2024, 4, 1)
 
         purge_tool = PurgeProposal()
 
@@ -117,7 +117,7 @@ class PurgeProposalTest(unittest.TestCase):
                 last_active_date = datetime(2024, 3, 31, 12, 0, 0)
             )
         ]
-        reference_date = datetime(2024, 4, 1)
+        reference_date = date(2024, 4, 1)
 
         purge_tool = PurgeProposal()
 
@@ -145,7 +145,7 @@ class PurgeProposalTest(unittest.TestCase):
                 last_active_date = datetime(2024, 1, 31, 12, 0, 0)
             )
         ]
-        reference_date = datetime(2024, 4, 1)
+        reference_date = date(2024, 4, 1)
 
         purge_tool = PurgeProposal()
 
