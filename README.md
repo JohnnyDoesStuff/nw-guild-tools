@@ -65,6 +65,22 @@ Use the help of the tool for further information:
 python -m PythonTools.Rankup -h
 ```
 
+### Purge
+This tool creates a proposal of inactive members that can be kicked from the guild to make space.
+
+You have to define a rule file specifying when you think members of a certain rank can be removed. The idea is that members of a higher rank tend to get back to the game more likely. It has to be a \*.csv file, e.g.:
+```csv
+Rank,PurgeAfter
+Rank1,30
+Rank2,90
+Rank3,180
+```
+
+Use the help of the tool for further information:
+```bash
+python -m PythonTools.Purge -h
+```
+
 ## Tests
 ### PowerShell
 PowerShell scripts can be tested with [Pester](https://pester.dev/) (Major version: 5). Open a PowerShell and execute:
