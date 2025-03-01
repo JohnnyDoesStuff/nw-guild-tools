@@ -57,7 +57,7 @@ class RepairCsv:
 
     def repair_csv(self, source_path, target_path):
         text_lines = []
-        with open(source_path, 'r') as f:
+        with open(source_path, 'r', errors='replace') as f:
             text_lines = f.readlines()
 
         fixed_lines = []
