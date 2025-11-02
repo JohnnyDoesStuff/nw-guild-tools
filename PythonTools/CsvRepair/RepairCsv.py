@@ -73,5 +73,5 @@ class RepairCsv:
 
             fixed_lines.append(fixed_line)
 
-        with open(target_path, 'w') as f:
+        with open(target_path, 'w', encoding='utf-8') as f:
             f.writelines(fixed_lines)
