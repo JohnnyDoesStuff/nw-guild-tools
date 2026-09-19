@@ -29,6 +29,24 @@ class PurgeProposal:
             rules.append(rule)
         return rules
 
+    def read_banned_accounts(self, path: str) -> list:
+        """
+        Reads banned accounts from a text file that are separated by newlines.
+
+        Args:
+            path (str): The path to the text file containing the banned accounts.
+
+        Returns:
+            list: A list of banned accounts.
+        """
+
+        if not path:
+            return []
+
+        print(f"Reading banned accounts from {path}")
+        with open(path, "r") as f:
+            return f.read().splitlines()
+
     def create_purge_proposal(self,
                         rule: PurgeRule,
                         accounts: list,
