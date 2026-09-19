@@ -1,6 +1,7 @@
 from datetime import date, datetime
 import os
 import unittest
+from parameterized import parameterized
 
 from PythonTools.NwAccount.Account import Account
 from PythonTools.Purge.PurgeProposal import PurgeProposal
@@ -158,3 +159,26 @@ class PurgeProposalTest(unittest.TestCase):
         self.assertEqual(len(purge_proposal), 2)
         self.assertTrue(accounts[0] in purge_proposal)
         self.assertTrue(accounts[1] in purge_proposal)
+
+    def test_read_banned_accounts_if_none_provided(self):
+        purge_tool = PurgeProposal()
+        self.assertEqual(purge_tool.read_banned_accounts(None), [])
+
+    def test_read_banned_accounts_if_empty_string_provided(self):
+        purge_tool = PurgeProposal()
+        self.assertEqual(purge_tool.read_banned_accounts(""), [])
+
+    @parameterized.expand([
+        ('testdata/bannedAccountsEmpty.txt', []),
+        ('testdata/bannedAccountsSingle.txt', ['banned#001']),
+        ('testdata/bannedAccounts.txt', ['banned#001', 'banned#002', 'banned#007']),
+    ])
+    def test_read_banned_accounts(self, file_path, expected_output):
+        current_directory = os.path.dirname(
+            os.path.abspath(__file__)
+        )
+        full_path = os.path.join(current_directory, file_path)
+        purge_tool = PurgeProposal()
+        result = purge_tool.read_banned_accounts(full_path)
+        self.assertEqual(result, expected_output)
+
