@@ -87,3 +87,24 @@ class PurgeProposal:
                 purge_proposal.append(account)
 
         return purge_proposal
+
+    def get_banned_accounts(self,
+                            accounts: list,
+                            banned_accounts: list
+                            ) -> list:
+        """
+        Returns a list of all banned accounts found
+
+        Args:
+            accounts (list): A list of Account objects.
+            banned_accounts (list): A list of banned accounts
+
+        Returns:
+            list: A list of banned accounts
+        """
+        normalized_banned_accounts = [
+            f"@{handle}"
+            if not handle.startswith("@") else handle
+            for handle in banned_accounts]
+
+        return [account for account in accounts if account.account_handle in normalized_banned_accounts]
