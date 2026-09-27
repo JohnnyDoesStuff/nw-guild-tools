@@ -1,7 +1,7 @@
 from datetime import date
 import os
 from PythonTools.NwAccount.AccountReader import AccountReader
-from PythonTools.Purge.PurgeProposal import PurgeProposal
+from PythonTools.Purge.PurgeRuleHandler import PurgeRuleHandler
 
 class PurgeProposalCreator:
     def __init__(self, member_path=None, rule_path=None, ban_list=None):
@@ -9,7 +9,7 @@ class PurgeProposalCreator:
         self.rule_path = rule_path
         self.ban_list = ban_list
 
-        self.purge_tool = PurgeProposal()
+        self.purge_tool = PurgeRuleHandler()
 
     def check_args(self):
         if self.rule_path is None:

@@ -2,7 +2,7 @@ from datetime import date, timedelta
 import pandas as pd
 from PythonTools.Purge.PurgeRule import PurgeRule
 
-class PurgeProposal:
+class PurgeRuleHandler:
     def read_rules(self, path: str):
         """
         Reads rule information from a CSV file and returns a list of PurgeRule objects.
