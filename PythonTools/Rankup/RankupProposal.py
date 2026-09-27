@@ -6,9 +6,6 @@ from PythonTools.NwAccount.Account import Account
 from .RankupRule import RankupRule
 
 class RankupProposal:
-    def __init__(self):
-        print("Rankup init")
-
     def _add_account_to_list(self, account_list: list, account: Account):
         account_list = account_list.copy()
         for existing_account in account_list:

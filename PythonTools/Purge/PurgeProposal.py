@@ -3,10 +3,6 @@ import pandas as pd
 from PythonTools.Purge.PurgeRule import PurgeRule
 
 class PurgeProposal:
-
-    def __init__(self):
-        print("Purge init")
-
     def read_rules(self, path: str):
         """
         Reads rule information from a CSV file and returns a list of PurgeRule objects.
