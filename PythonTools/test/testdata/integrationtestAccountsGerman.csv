@@ -1,0 +1,9 @@
+Character Name,Account Handle,Level,Class,Guild Rank,Contribution Total,Join Date,Rank Change Date,Last Active Date,Status,Public Comment,Public Comment Last Edit Date,Officer Comment,Officer Comment Author,Officer Comment Last Edit Date
+foo,@bar,20,FakeClass1,FakeRank1,123,"1.1.2024, 10:00:00","01.01.2024, 11:00:00","3.1.2024, 12:00:00","","",,,,
+es,@baz,20,FakeClass2,FakeRank1,456,"1.1.2024, 10:00:00","1.1.2024, 11:00:00","30.6.2024, 12:00:00","","",,,,
+oof,@ofof,20,FakeClass1,FakeRank2,123,"1.1.2024, 10:00:00","01.01.2024, 11:00:00","3.1.2024, 12:00:00","","",,,,
+se,@zab,20,FakeClass2,FakeRank2,456,"1.1.2024, 10:00:00","1.1.2024, 11:00:00","30.6.2024, 12:00:00","","",,,,
+ofo,@rab,20,FakeClass1,FakeRank3,123,"1.1.2024, 10:00:00","01.01.2024, 11:00:00","3.1.2024, 12:00:00","","",,,,
+esel,@abz,20,FakeClass2,FakeRank3,456,"1.1.2024, 10:00:00","1.1.2024, 11:00:00","30.6.2024, 12:00:00","","",,,,
+donkey,@zba,20,FakeClass2,FakeRank3,456,"1.1.2024, 10:00:00","1.1.2024, 11:00:00","30.6.2024, 12:00:00","","",,,,
+bannedboi,@banned#002,20,FakeClass2,FakeRank3,456,"1.1.2024, 10:00:00","1.6.2024, 11:00:00","30.6.2024, 12:00:00","","",,,,
