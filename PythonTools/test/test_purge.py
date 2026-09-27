@@ -4,10 +4,10 @@ import unittest
 from parameterized import parameterized
 
 from PythonTools.NwAccount.Account import Account
-from PythonTools.Purge.PurgeProposal import PurgeProposal
+from PythonTools.Purge.PurgeRuleHandler import PurgeRuleHandler
 from PythonTools.Purge.PurgeRule import PurgeRule
 
-class PurgeProposalTest(unittest.TestCase):
+class PurgeRuleHandlerTest(unittest.TestCase):
 
     def test_can_read_rules(self):
         file_path = "testdata/testPurgeRules.csv"
@@ -15,7 +15,7 @@ class PurgeProposalTest(unittest.TestCase):
             os.path.abspath(__file__)
         )
         full_path = os.path.join(current_directory, file_path)
-        purge_tool = PurgeProposal()
+        purge_tool = PurgeRuleHandler()
 
         rules = purge_tool.read_rules(full_path)
 
@@ -39,7 +39,7 @@ class PurgeProposalTest(unittest.TestCase):
         ]
         reference_date = date(2024, 4, 1)
 
-        purge_tool = PurgeProposal()
+        purge_tool = PurgeRuleHandler()
 
         purge_proposal = purge_tool.create_purge_proposal(
             purge_rule,
@@ -68,7 +68,7 @@ class PurgeProposalTest(unittest.TestCase):
         ]
         reference_date = date(2024, 4, 1)
 
-        purge_tool = PurgeProposal()
+        purge_tool = PurgeRuleHandler()
 
         purge_proposal = purge_tool.create_purge_proposal(
             purge_rule,
@@ -97,7 +97,7 @@ class PurgeProposalTest(unittest.TestCase):
         ]
         reference_date = date(2024, 4, 1)
 
-        purge_tool = PurgeProposal()
+        purge_tool = PurgeRuleHandler()
 
         purge_proposal = purge_tool.create_purge_proposal(
             purge_rule,
@@ -120,7 +120,7 @@ class PurgeProposalTest(unittest.TestCase):
         ]
         reference_date = date(2024, 4, 1)
 
-        purge_tool = PurgeProposal()
+        purge_tool = PurgeRuleHandler()
 
         purge_proposal = purge_tool.create_purge_proposal(
             purge_rule,
@@ -148,7 +148,7 @@ class PurgeProposalTest(unittest.TestCase):
         ]
         reference_date = date(2024, 4, 1)
 
-        purge_tool = PurgeProposal()
+        purge_tool = PurgeRuleHandler()
 
         purge_proposal = purge_tool.create_purge_proposal(
             purge_rule,
@@ -161,11 +161,11 @@ class PurgeProposalTest(unittest.TestCase):
         self.assertTrue(accounts[1] in purge_proposal)
 
     def test_read_banned_accounts_if_none_provided(self):
-        purge_tool = PurgeProposal()
+        purge_tool = PurgeRuleHandler()
         self.assertEqual(purge_tool.read_banned_accounts(None), [])
 
     def test_read_banned_accounts_if_empty_string_provided(self):
-        purge_tool = PurgeProposal()
+        purge_tool = PurgeRuleHandler()
         self.assertEqual(purge_tool.read_banned_accounts(""), [])
 
     @parameterized.expand([
@@ -178,12 +178,12 @@ class PurgeProposalTest(unittest.TestCase):
             os.path.abspath(__file__)
         )
         full_path = os.path.join(current_directory, file_path)
-        purge_tool = PurgeProposal()
+        purge_tool = PurgeRuleHandler()
         result = purge_tool.read_banned_accounts(full_path)
         self.assertEqual(result, expected_output)
 
     def test_can_identify_a_banned_account(self):
-        purge_tool = PurgeProposal()
+        purge_tool = PurgeRuleHandler()
         all_accounts = [
             Account('@foo', 'Rank1', datetime(2024, 1, 1, 10, 0, 0), last_active_date = datetime(2024, 1, 31, 12, 0, 0)),
             Account('@bar', 'Rank1', datetime(2024, 1, 1, 10, 0, 0), last_active_date = datetime(2024, 1, 31, 12, 0, 0)),
@@ -193,7 +193,7 @@ class PurgeProposalTest(unittest.TestCase):
         self.assertEqual(result, [all_accounts[2]])
 
     def test_can_identify_account_if_at_character_is_missing(self):
-        purge_tool = PurgeProposal()
+        purge_tool = PurgeRuleHandler()
         all_accounts = [
             Account('@foo', 'Rank1', datetime(2024, 1, 1, 10, 0, 0), last_active_date = datetime(2024, 1, 31, 12, 0, 0)),
             Account('@bar', 'Rank1', datetime(2024, 1, 1, 10, 0, 0), last_active_date = datetime(2024, 1, 31, 12, 0, 0)),
@@ -203,7 +203,7 @@ class PurgeProposalTest(unittest.TestCase):
         self.assertEqual(result, [all_accounts[2]])
 
     def test_returns_empty_if_no_banned_accounts_exist(self):
-        purge_tool = PurgeProposal()
+        purge_tool = PurgeRuleHandler()
         all_accounts = [
             Account('@foo', 'Rank1', datetime(2024, 1, 1, 10, 0, 0), last_active_date = datetime(2024, 1, 31, 12, 0, 0)),
             Account('@bar', 'Rank1', datetime(2024, 1, 1, 10, 0, 0), last_active_date = datetime(2024, 1, 31, 12, 0, 0)),]
@@ -212,7 +212,7 @@ class PurgeProposalTest(unittest.TestCase):
         self.assertEqual(result, [])
 
     def test_also_works_if_no_account_is_banned(self):
-        purge_tool = PurgeProposal()
+        purge_tool = PurgeRuleHandler()
         all_accounts = [
             Account('@foo', 'Rank1', datetime(2024, 1, 1, 10, 0, 0), last_active_date = datetime(2024, 1, 31, 12, 0, 0)),
             Account('@bar', 'Rank1', datetime(2024, 1, 1, 10, 0, 0), last_active_date = datetime(2024, 1, 31, 12, 0, 0)),]
@@ -221,7 +221,7 @@ class PurgeProposalTest(unittest.TestCase):
         self.assertEqual(result, [])
 
     def test_can_identify_multiple_banned_accounts(self):
-        purge_tool = PurgeProposal()
+        purge_tool = PurgeRuleHandler()
         all_accounts = [
             Account('@foo', 'Rank1', datetime(2024, 1, 1, 10, 0, 0), last_active_date = datetime(2024, 1, 31, 12, 0, 0)),
             Account('@bar', 'Rank1', datetime(2024, 1, 1, 10, 0, 0), last_active_date = datetime(2024, 1, 31, 12, 0, 0)),
